@@ -3,10 +3,10 @@ import React from 'react';
 import { useIntersection } from '@/app/lib/utils';
 
 const ABOUT_PHOTOS = [
-  { src: 'https://res.cloudinary.com/dmtehcd5t/image/upload/v1779422759/michi-cute_ovgwxi.webp', alt: 'Michi 1' },
-  { src: 'https://res.cloudinary.com/dmtehcd5t/image/upload/v1779422759/michi-cute_ovgwxi.webp', alt: 'Michi 2' },
-  { src: 'https://res.cloudinary.com/dmtehcd5t/image/upload/v1779422759/michi-cute_ovgwxi.webp', alt: 'Michi 3' },
-  { src: 'https://res.cloudinary.com/dmtehcd5t/image/upload/v1779422759/michi-cute_ovgwxi.webp', alt: 'Michi 4' },
+  { src: 'https://res.cloudinary.com/dmtehcd5t/image/upload/v1779870976/equipo-michi-pacenos_3_n2hhqg.jpg', alt: 'Michi 1' },
+  { src: 'https://res.cloudinary.com/dmtehcd5t/image/upload/v1779870976/equipo-michi-pacenos_1_aaoxot.jpg', alt: 'Michi 2' },
+  { src: 'https://res.cloudinary.com/dmtehcd5t/image/upload/v1779870976/equipo-michi-pacenos_2_ltw2tc.jpg', alt: 'Michi 3' },
+  { src: 'https://res.cloudinary.com/dmtehcd5t/image/upload/v1779870976/equipo-michi-pacenos_4_bcsfoy.jpg', alt: 'Michi 4' },
 ];
 
 export default function About() {

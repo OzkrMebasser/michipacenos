@@ -105,7 +105,7 @@ export default function Navbar() {
         {/* Mobile menu */}
         <div
           className={`lg:hidden overflow-hidden transition-all duration-300 ${
-            menuOpen ? 'h-full opacity-100' : 'max-h-0 opacity-0'
+            menuOpen ? 'h-full opacity-' : 'max-h-0 opacity-0'
           }`}
         >
           <div className="bg-white border-t border-gray-100 px-4 py-4 flex flex-col gap-1">
