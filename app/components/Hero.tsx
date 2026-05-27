@@ -3,12 +3,11 @@ import React from 'react';
 
 export default function Hero() {
   return (
-    <section className="relative w-full flex items-center overflow-hidden pt-20 bg-gradient-to-br from-green-50 via-white to-pink-50">
-      {/* Decorative blobs */}
+<section className="relative w-full flex items-center overflow-x-hidden pt-16 lg:pt-32 bg-gradient-to-br from-green-50 via-white to-pink-50">
       <div className="absolute top-20 right-0 w-96 h-96 bg-green-200/40 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-10 left-0 w-72 h-72 bg-pink-200/40 rounded-full blur-3xl pointer-events-none" />
 
-      <div className=" mx-auto px-8 lg:px-0 lg:pl-16 grid lg:grid-cols-2 gap-12 items-center  overflow-hidden">
+<div className="w-full mx-auto px-4 lg:pl-16 grid lg:grid-cols-2 gap-12 items-center">
         {/* Text */}
         <div className="space-y-8 mb-12">
          

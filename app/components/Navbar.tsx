@@ -29,7 +29,7 @@ export default function Navbar() {
     <>
       <nav
         className={`fixed w-full z-50 transition-all duration-300 ${
-          scrolled ? 'bg-white/95 backdrop-blur-sm shadow-md' : 'bg-transparent'
+          scrolled ? 'bg-white/95 backdrop-blur-sm shadow-md' : 'bg-white/95  lg:bg-transparent'
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 flex items-center justify-between">
@@ -105,7 +105,7 @@ export default function Navbar() {
         {/* Mobile menu */}
         <div
           className={`lg:hidden overflow-hidden transition-all duration-300 ${
-            menuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+            menuOpen ? 'h-full opacity-100' : 'max-h-0 opacity-0'
           }`}
         >
           <div className="bg-white border-t border-gray-100 px-4 py-4 flex flex-col gap-1">
