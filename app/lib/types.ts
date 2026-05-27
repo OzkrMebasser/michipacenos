@@ -13,12 +13,14 @@ export interface Cat {
   photos: string[];
   created_at: string;
 }
+
 export interface Story {
   id: string;
   cat_name: string;
   adopter_name: string;
   image_url: string;
   text: string;
+  created_at?: string;
 }
 
 export interface Stat {

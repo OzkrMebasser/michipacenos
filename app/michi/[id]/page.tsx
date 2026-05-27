@@ -132,6 +132,7 @@ export default function CatDetailPage() {
               <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5">
                 {allPhotos.map((_, i) => (
                   <button
+                    title={`Foto ${i + 1}`}
                     key={i}
                     onClick={() => setCurrentPhoto(i)}
                     className={`h-2 rounded-full transition-all ${
@@ -149,6 +150,7 @@ export default function CatDetailPage() {
                   <button
                     key={i}
                     onClick={() => setCurrentPhoto(i)}
+                    title={`Foto ${i + 1}`}
                     className={`w-10 h-10 rounded-lg overflow-hidden border-2 transition flex-shrink-0 ${
                       i === currentPhoto ? "border-white" : "border-transparent opacity-60 hover:opacity-100"
                     }`}
