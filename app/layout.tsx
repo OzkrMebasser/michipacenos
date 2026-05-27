@@ -29,7 +29,9 @@ export default function RootLayout({
      className={`${fredoka.variable} ${nunito.variable} h-full antialiased`}
       suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        
+        {children}</body>
     </html>
   );
 }

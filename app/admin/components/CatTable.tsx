@@ -1,6 +1,6 @@
 'use client';
 
-import type { Cat } from './Dashboard';
+import type { Cat } from '../../lib/types';
 
 const STATUS_LABELS: Record<Cat['status'], { label: string; class: string }> = {
   disponible: { label: 'Disponible', class: 'bg-green-100 text-green-800' },

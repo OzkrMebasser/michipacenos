@@ -1,17 +1,26 @@
 "use client";
 
 import type { Cat } from '../lib/types';
-import { formatAge, useIntersection } from '../lib/utils';
+import { useIntersection } from '../lib/utils';
+import { useRouter } from 'next/navigation';
 
 interface CatCardProps {
   cat: Cat;
   index: number;
 }
 
+const STATUS_CONFIG = {
+  disponible: { label: 'Disponible', color: 'bg-green-500' },
+  en_proceso: { label: 'En proceso', color: 'bg-yellow-400' },
+  adoptado:   { label: 'Adoptado',   color: 'bg-blue-500' },
+};
+
 export default function CatCard({ cat, index }: CatCardProps) {
   const { ref, visible } = useIntersection();
-  const genderIcon = cat.gender === 'hembra' ? '♀️' : '♂️';
+  const router = useRouter();
+  const genderIcon  = cat.gender === 'hembra' ? '♀️' : '♂️';
   const genderColor = cat.gender === 'hembra' ? 'text-pink-500' : 'text-blue-500';
+  const status      = STATUS_CONFIG[cat.status];
 
   return (
     <div
@@ -21,19 +30,23 @@ export default function CatCard({ cat, index }: CatCardProps) {
       }`}
       style={{ transitionDelay: `${index * 80}ms` }}
     >
-      {/* Image */}
-      <div className="relative overflow-hidden h-48">
-        <img
-          src={cat.image_url}
-          alt={cat.name}
-          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-        />
-        {cat.special_needs && (
-          <span className="absolute top-2 right-2 bg-purple-500 text-white text-xs font-bold px-2 py-1 rounded-full">
-            Especial ✨
-          </span>
-        )}
-      </div>
+{/* Image */}
+<div className="relative overflow-hidden aspect-square">
+  {(cat.photos?.[0] ?? cat.image_url) ? (
+    <img
+      src={cat.photos?.[0] ?? cat.image_url!}
+      alt={cat.name}
+      className="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-500"
+    />
+  ) : (
+    <div className="w-full h-full bg-orange-100 flex items-center justify-center text-5xl">
+      🐱
+    </div>
+  )}
+  <span className={`absolute top-2 right-2 ${status.color} text-white text-xs font-bold px-2 py-1 rounded-full`}>
+    {status.label}
+  </span>
+</div>
 
       {/* Info */}
       <div className="p-4 space-y-2">
@@ -41,36 +54,19 @@ export default function CatCard({ cat, index }: CatCardProps) {
           <h3 className="font-black text-gray-800 text-lg">
             {cat.name} <span className={genderColor}>{genderIcon}</span>
           </h3>
-          <span className="text-xs text-gray-400 font-medium">{formatAge(cat.age_months)}</span>
+          <span className="text-xs text-gray-400 font-medium">{cat.age}</span>
         </div>
 
-        <div className="flex flex-wrap gap-1">
-          {cat.personalities.map(p => (
-            <span
-              key={p}
-              className="text-xs bg-green-100 text-green-700 font-semibold px-2 py-0.5 rounded-full capitalize"
-            >
-              {p}
-            </span>
-          ))}
-        </div>
+        <p className="text-xs text-gray-500">{cat.color}</p>
 
-        <div className="flex gap-2 text-xs text-gray-500 pt-1">
-          {cat.sterilized && (
-            <span className="flex items-center gap-1">
-              <span className="w-2 h-2 bg-green-500 rounded-full" />
-              Esterilizado/a
-            </span>
-          )}
-          {cat.vaccinated && (
-            <span className="flex items-center gap-1">
-              <span className="w-2 h-2 bg-teal-500 rounded-full" />
-              Vacunado/a
-            </span>
-          )}
-        </div>
+        {cat.description && (
+          <p className="text-xs text-gray-500 line-clamp-2">{cat.description}</p>
+        )}
 
-        <button className="w-full mt-2 bg-green-600 hover:bg-green-700 text-white font-bold py-2 rounded-xl text-sm transition-all hover:scale-[1.02]">
+        <button
+          onClick={() => router.push(`/michi/${cat.id}`)}
+          className="w-full mt-2 bg-green-600 hover:bg-green-700 text-white font-bold py-2 rounded-xl text-sm transition-all hover:scale-[1.02]"
+        >
           Quiero adoptarle 🏠
         </button>
       </div>

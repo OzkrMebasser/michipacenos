@@ -1,28 +1,18 @@
 export type Gender = 'hembra' | 'macho';
-
-export type Personality =
-  | 'tranquila'
-  | 'juguetona'
-  | 'cariñosa'
-  | 'independiente'
-  | 'tímida'
-  | 'sociable'
-  | 'curiosa'
-  | 'activa';
+export type AdoptionStatus = 'disponible' | 'en_proceso' | 'adoptado';
 
 export interface Cat {
   id: string;
   name: string;
-  age_months: number;
+  age: string;
   gender: Gender;
-  personalities: Personality[];
-  image_url: string;
-  sterilized: boolean;
-  vaccinated: boolean;
-  special_needs: boolean;
-  description?: string;
+  color: string;
+  description: string;
+  status: AdoptionStatus;
+  image_url: string | null;
+  photos: string[];
+  created_at: string;
 }
-
 export interface Story {
   id: string;
   cat_name: string;
@@ -51,13 +41,10 @@ export interface HowToHelp {
   description: string;
 }
 
-
 export type FilterKey =
   | 'todos'
   | 'hembra'
   | 'macho'
-  | 'cachorro'
-  | 'adulto'
-  | 'tranquila'
-  | 'juguetona'
-  | 'especial';
+  | 'disponible'
+  | 'en_proceso'
+  | 'adoptado';

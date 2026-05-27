@@ -1,7 +1,13 @@
 "use client";
 import React from 'react';
-import { CATS } from '@/app/lib/data';
 import { useIntersection } from '@/app/lib/utils';
+
+const ABOUT_PHOTOS = [
+  { src: 'https://res.cloudinary.com/dmtehcd5t/image/upload/v1779422759/michi-cute_ovgwxi.webp', alt: 'Michi 1' },
+  { src: 'https://res.cloudinary.com/dmtehcd5t/image/upload/v1779422759/michi-cute_ovgwxi.webp', alt: 'Michi 2' },
+  { src: 'https://res.cloudinary.com/dmtehcd5t/image/upload/v1779422759/michi-cute_ovgwxi.webp', alt: 'Michi 3' },
+  { src: 'https://res.cloudinary.com/dmtehcd5t/image/upload/v1779422759/michi-cute_ovgwxi.webp', alt: 'Michi 4' },
+];
 
 export default function About() {
   const { ref, visible } = useIntersection();
@@ -18,9 +24,6 @@ export default function About() {
           <h2 className="text-4xl font-black text-gray-900">
             ¿Quiénes somos? <span className="text-green-500">💚</span>
           </h2>
-          {/* <p className="text-lg font-semibold text-gray-700">
-            Somos un grupo de personas que creemos en un mundo más compasivo para los gatos.
-          </p> */}
           <p className="text-gray-600 leading-relaxed">
             Somos una organización que se creó en enero del 2024, con un grupo de 10 personas que coincidimos con la misma sensibilidad, amor y pasión por el bienestar de los gatos. Al ver la situación social en la que actualmente vivimos, decidimos voluntariamente ayudar a los gatos más vulnerables de la calle brindándoles hogar temporal, cuidado y protección para posteriormente buscarles un hogar. Así es como nació Michipaceños.
           </p>
@@ -38,10 +41,10 @@ export default function About() {
             visible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8'
           }`}
         >
-          <img src={CATS[3].image_url} alt={CATS[3].name} className="w-full h-48 object-cover rounded-2xl shadow-md hover:scale-105 transition-transform" />
-          <img src={CATS[4].image_url} alt={CATS[4].name} className="w-full h-48 object-cover rounded-2xl shadow-md hover:scale-105 transition-transform mt-6" />
-          <img src={CATS[5].image_url} alt={CATS[5].name} className="w-full h-48 object-cover rounded-2xl shadow-md hover:scale-105 transition-transform -mt-6" />
-          <img src={CATS[6].image_url} alt={CATS[6].name} className="w-full h-48 object-cover rounded-2xl shadow-md hover:scale-105 transition-transform" />
+          <img src={ABOUT_PHOTOS[0].src} alt={ABOUT_PHOTOS[0].alt} className="w-full h-48 object-cover rounded-2xl shadow-md hover:scale-105 transition-transform" />
+          <img src={ABOUT_PHOTOS[1].src} alt={ABOUT_PHOTOS[1].alt} className="w-full h-48 object-cover rounded-2xl shadow-md hover:scale-105 transition-transform mt-6" />
+          <img src={ABOUT_PHOTOS[2].src} alt={ABOUT_PHOTOS[2].alt} className="w-full h-48 object-cover rounded-2xl shadow-md hover:scale-105 transition-transform -mt-6" />
+          <img src={ABOUT_PHOTOS[3].src} alt={ABOUT_PHOTOS[3].alt} className="w-full h-48 object-cover rounded-2xl shadow-md hover:scale-105 transition-transform" />
         </div>
       </div>
     </section>

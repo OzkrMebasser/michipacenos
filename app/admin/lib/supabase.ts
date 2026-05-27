@@ -1,28 +1,23 @@
 import { createClient } from '@supabase/supabase-js';
 
-export type Database = {
-  public: {
-    Tables: {
-      cats: {
-        Row: {
-          id: string;
-          name: string;
-          age: string;
-          gender: 'macho' | 'hembra';
-          color: string;
-          description: string;
-          status: 'disponible' | 'en_proceso' | 'adoptado';
-          image_url: string | null;
-          created_at: string;
-        };
-        Insert: Omit<Database['public']['Tables']['cats']['Row'], 'id' | 'created_at'>;
-        Update: Partial<Database['public']['Tables']['cats']['Insert']>;
-      };
-    };
-  };
+type CatRow = {
+  id: string;
+  name: string;
+  age: string;
+  gender: 'macho' | 'hembra';
+  color: string;
+  description: string;
+  status: 'disponible' | 'en_proceso' | 'adoptado';
+  image_url: string | null;
+  photos: string[];
+  created_at: string;
 };
 
-export const supabase = createClient<Database>(
+export type CatInsert = Omit<CatRow, 'id' | 'created_at'>;
+export type CatUpdate = Partial<CatInsert>;
+
+// Cliente sin genérico — evita el problema de tipos never
+export const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 );
