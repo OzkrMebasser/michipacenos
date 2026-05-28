@@ -5,7 +5,7 @@ const FACEBOOK_URL = 'https://www.facebook.com/profile.php?id=61554151521513';
 
 export default function Contact() {
   return (
-    <section className="py-20 bg-gray-900 text-white">
+    <section className="py-20 bg-gray-900 text-white" id="contacto">
       <div className="max-w-7xl mx-auto px-4">
         <div className="grid lg:grid-cols-2 gap-12 items-start">
           {/* Brand + social */}

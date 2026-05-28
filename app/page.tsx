@@ -10,7 +10,8 @@ import Contact from "./components/Contact";
 import MichiMap from "./components/MichiMap";
 export default function Home() {
   return (
-    <div className="font-sans antialiased">
+    <div className="font-sans antialiased overflow-x-hidden">
+
       <Navbar />
       <Hero />
       <Stats />

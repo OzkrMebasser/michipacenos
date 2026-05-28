@@ -1,10 +1,10 @@
 "use client";
-import React, { useState, useEffect, useRef } from 'react';
-import { supabase } from '../admin/lib/supabase';
-import type { Cat } from '../lib/types';
-import CatCard from './CatCard';
-import { useRouter } from 'next/navigation';
-import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
+import React, { useState, useEffect, useRef } from "react";
+import { supabase } from "../admin/lib/supabase";
+import type { Cat } from "../lib/types";
+import CatCard from "./CatCard";
+import { useRouter } from "next/navigation";
+import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 
 export default function AdoptionSection() {
   const [cats, setCats] = useState<Cat[]>([]);
@@ -14,35 +14,40 @@ export default function AdoptionSection() {
 
   useEffect(() => {
     supabase
-      .from('cats')
-      .select('*')
-      .neq('status', 'adoptado')
-      .order('created_at', { ascending: false })
+      .from("cats")
+      .select("*")
+      .neq("status", "adoptado")
+      .order("created_at", { ascending: false })
       .then(({ data, error }) => {
         if (!error && data) setCats(data);
         setLoading(false);
       });
   }, []);
 
-  const scroll = (dir: 'left' | 'right') => {
+  const scroll = (dir: "left" | "right") => {
     if (!scrollRef.current) return;
-    const cardWidth = scrollRef.current.offsetWidth / 4;
-    scrollRef.current.scrollBy({ left: dir === 'right' ? cardWidth : -cardWidth, behavior: 'smooth' });
+    const cardWidth = scrollRef.current.offsetWidth / 2;
+    scrollRef.current.scrollBy({
+      left: dir === "right" ? cardWidth : -cardWidth,
+      behavior: "smooth",
+    });
   };
 
   return (
-    <section className="py-20 bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4">
-
+    <section className="py-12 bg-gray-50">
+      <div className="max-w-7xl mx-auto px-4 lg:px-8">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
-          <h2 className="text-4xl font-black text-gray-900">🐾 Michis en adopción</h2>
-          <button
-            onClick={() => router.push('/michis-en-adopcion')}
-            className="text-green-600 font-semibold hover:underline text-sm"
+          <h2 className="text-3xl font-black text-[#ff3ca5] font-logo">
+         Michis en adopción 
+         <img src="https://res.cloudinary.com/dmtehcd5t/image/upload/v1779947670/michipaceno-icono_7_lcgn5w.png" alt="gatito en adopción" className="inline-block w-9 h-9 ml-2 scale-x-[-1]"   />
+          </h2>
+          {/* <button
+            onClick={() => router.push("/michis-en-adopcion")}
+            className="text-green-600 font-semibold hover:underline text-sm hidden lg:block"
           >
             Ver todos los michis →
-          </button>
+          </button> */}
         </div>
 
         {/* Loading */}
@@ -55,25 +60,25 @@ export default function AdoptionSection() {
         {/* Carousel */}
         {!loading && cats.length > 0 && (
           <div className="relative">
-
             {/* Arrow left */}
             <button
-              onClick={() => scroll('left')}
-              className="hidden lg:flex absolute -left-6 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-white shadow-lg rounded-full items-center justify-center text-green-600 hover:bg-green-600 hover:text-white transition-all border border-gray-100"
+              onClick={() => scroll("left")}
+              className="flex absolute -left-3 lg:-left-6 top-1/2 -translate-y-1/2 z-10 w-10 h-10 lg:w-12 lg:h-12 bg-white shadow-lg rounded-full items-center justify-center text-green-600 hover:bg-green-600 hover:text-white transition-all border border-gray-100"
             >
-              <FiChevronLeft size={24} strokeWidth={2.5} />
+              <FiChevronLeft size={20} strokeWidth={2.5} />
             </button>
 
             {/* Scroll container */}
             <div
               ref={scrollRef}
-              className="flex gap-5 overflow-x-auto scroll-smooth pb-4 snap-x snap-mandatory
-                [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
+              className="flex gap-5 overflow-x-auto scroll-smooth pb-4 snap-x snap-mandatory px-6 lg:px-0
+    [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
+              style={{ scrollPaddingLeft: "1.5rem" }}
             >
               {cats.map((cat, i) => (
                 <div
                   key={cat.id}
-                  className="flex-shrink-0 snap-start w-[85vw] sm:w-[45vw] lg:w-[calc(25%-15px)]"
+                  className="flex-shrink-0 snap-start w-[85vw] sm:w-[45vw] lg:w-[calc(25%-15px)] mx-auto lg:mx-0"
                 >
                   <CatCard cat={cat} index={i} />
                 </div>
@@ -82,10 +87,10 @@ export default function AdoptionSection() {
 
             {/* Arrow right */}
             <button
-              onClick={() => scroll('right')}
-              className="hidden lg:flex absolute -right-6 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-white shadow-lg rounded-full items-center justify-center text-green-600 hover:bg-green-600 hover:text-white transition-all border border-gray-100"
+              onClick={() => scroll("right")}
+              className="flex absolute -right-3 lg:-right-6 top-1/2 -translate-y-1/2 z-10 w-10 h-10 lg:w-12 lg:h-12 bg-white shadow-lg rounded-full items-center justify-center text-green-600 hover:bg-green-600 hover:text-white transition-all border border-gray-100"
             >
-              <FiChevronRight size={24} strokeWidth={2.5} />
+              <FiChevronRight size={20} strokeWidth={2.5} />
             </button>
           </div>
         )}
@@ -97,11 +102,11 @@ export default function AdoptionSection() {
           </div>
         )}
 
-        {/* Ver todos button — mobile */}
+        {/* Ver todos button — siempre visible */}
         {!loading && cats.length > 0 && (
-          <div className="mt-8 text-center lg:hidden">
+          <div className="mt-8 text-center">
             <button
-              onClick={() => router.push('/michis-en-adopcion')}
+              onClick={() => router.push("/michis-en-adopcion")}
               className="bg-green-600 hover:bg-green-700 text-white font-bold px-8 py-3 rounded-full transition"
             >
               Ver todos los michis 🐾

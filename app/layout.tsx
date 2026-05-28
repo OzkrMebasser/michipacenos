@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-// import { Geist, Geist_Mono } from "next/font/google";
-import { Fredoka, Nunito } from "next/font/google";import "./globals.css";
+import { Fredoka, Nunito, DynaPuff } from "next/font/google";
+
+import "./globals.css";
 
 const fredoka = Fredoka({
   subsets: ["latin"],
@@ -12,11 +13,15 @@ const nunito = Nunito({
   variable: "--font-nunito",
 });
 
+const dynaPuff = DynaPuff({
+  subsets: ["latin"],
+  variable: "--font-dynapuff",
+});
+
 export const metadata: Metadata = {
   title: "Michi Paceños",
-  description: "Asociación protectora de gatos",
+  description: "Michipaceños es una asociación la cual brinda campañas de esterilización a bajo costo, ferias de adopción y TNR (atrapar, esterilizar y soltar) como nuestra principal actividad.",
 };
-
 
 export default function RootLayout({
   children,
@@ -26,12 +31,16 @@ export default function RootLayout({
   return (
     <html
       lang="es"
-     className={`${fredoka.variable} ${nunito.variable} h-full antialiased`}
-      suppressHydrationWarning
+      className={`
+        ${fredoka.variable}
+        ${nunito.variable}
+        ${dynaPuff.variable}
+        h-full antialiased
+      `}
     >
       <body className="min-h-full flex flex-col">
-        
-        {children}</body>
+        {children}
+      </body>
     </html>
   );
 }

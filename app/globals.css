@@ -3,24 +3,35 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+    /*pallete */
+  --green: #57971e;
+  --hover-green: #3b720b;
+  --pink: #ff3ca5;
+  --blue: #00bcff;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+
   --font-heading: var(--font-fredoka);
   --font-body: var(--font-nunito);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --font-logo: var(--font-dynapuff);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
- font-family: var(--font-body);
+  font-family: var(--font-body);
+}
+
+.btn-green{
+  background-color: var(--green);
+}
+
+.btn-pink {
+  background-color: var(--pink);
+}
+html {
+  scroll-behavior: smooth;
 }
