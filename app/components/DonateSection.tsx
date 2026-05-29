@@ -71,13 +71,13 @@ export default function DonateSection() {
               </p>
 
               {/* Cuenta */}
-              <div className="bg-[#ffffff]/30 border border-white/80 rounded-xl px-4 py-3 space-y-2 text-sm">
+              <div className="bg-[#ffffff] border  rounded-xl px-4 py-3 space-y-2 text-sm hover:scale-101 transition-transform">
                 <div className="flex items-center justify-between gap-2">
                   <div>
                     <p className="text-gray-800 font-bold text-md">
                       Número de tarjeta
                     </p>
-                    <p className="font-mono font-bold tracking-wider">
+                    <p className="font-mono font-bold tracking-wider text-[#ff3ca5]">
                       4555 1130 1509 6623
                     </p>
                   </div>
@@ -85,15 +85,15 @@ export default function DonateSection() {
                     onClick={() =>
                       copyToClipboard("4555113015096623", "tarjeta")
                     }
-                    className="text-xs bg-white/20 hover:bg-white/30 px-2 py-1 rounded-lg transition whitespace-nowrap"
+                    className="text-xs text-gray-700 bg-[#0bbaf7]/40 hover:bg-[#0bbaf7]/50 px-2 py-1 rounded-lg transition whitespace-nowrap"
                   >
                     {copied === "tarjeta" ? "✅ Copiado" : "Copiar"}
                   </button>
                 </div>
-                <div className="flex items-center justify-between gap-2 border-t border-white/80 pt-2">
+                <div className="flex items-center justify-between gap-2 border-t border-gray-900 pt-2">
                   <div>
                     <p className="text-gray-800 font-bold text-md">CLABE</p>
-                    <p className="font-mono font-bold text-xs tracking-wider">
+                    <p className="font-mono font-bold text-xs tracking-wider text-[#ff3ca5]">
                       012040001248468859
                     </p>
                   </div>
@@ -101,14 +101,14 @@ export default function DonateSection() {
                     onClick={() =>
                       copyToClipboard("012040001248468859", "clabe")
                     }
-                    className="text-xs bg-white/20 hover:bg-white/30 px-2 py-1 rounded-lg transition whitespace-nowrap"
+                    className="text-xs text-gray-700 bg-[#0bbaf7]/40 hover:bg-[#0bbaf7]/50 px-2 py-1 rounded-lg transition whitespace-nowrap"
                   >
                     {copied === "clabe" ? "✅ Copiado" : "Copiar"}
                   </button>
                 </div>
-                <div className="border-t border-white/80 pt-2">
+                <div className="border-t border-gray-900 pt-2">
                   <p className="text-gray-800 font-bold text-md">A nombre de</p>
-                  <p className="font-bold">Michipaceños</p>
+                  <p className="font-bold text-[#ff3ca5]">Michipaceños</p>
                 </div>
               </div>
 

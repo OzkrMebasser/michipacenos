@@ -69,7 +69,7 @@ export default function HowToHelp() {
               }`}
               style={{ transitionDelay: `${i * 80}ms` }}
             >
-              <div className="w-14 h-14 bg-green-100 group-hover:bg-green-200 rounded-2xl flex items-center justify-center text-2xl mb-4 transition-colors">
+              <div className="w-14 h-14 bg-[#50990b]/20 group-hover:bg-[#50990b]/60 rounded-2xl flex items-center justify-center text-2xl mb-4 transition-colors">
                 {item.icon}
               </div>
               <h3 className="font-black text-gray-800 text-lg mb-1">
