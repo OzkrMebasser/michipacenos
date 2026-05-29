@@ -86,13 +86,13 @@ export default function CatTable({ cats, loading, onEdit, onDelete }: CatTablePr
               onClick={() => setGenderFilter(f.key)}
               className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition border ${
                 genderFilter === f.key
-                  ? f.key === 'macho'  ? 'bg-blue-500 text-white border-blue-500'
-                  : f.key === 'hembra' ? 'bg-pink-500 text-white border-pink-500'
+                  ? f.key === 'macho'  ? 'bg-[#0bbaf7] hover:bg-[#08a4dd] text-gray-900 border-[#08a4dd]'
+                  : f.key === 'hembra' ? 'bg-[#ff3ca5] hover:bg-[#d42281] text-gray-900 border-[#d42281]'
                   : 'bg-orange-500 text-white border-orange-500'
                   : 'bg-white text-gray-500 border-gray-200 hover:border-orange-200'
               }`}
             >
-              {f.label}
+              {f.label} 
             </button>
           ))}
         </div>

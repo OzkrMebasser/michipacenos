@@ -47,9 +47,9 @@ export default function CatDetailPage() {
         <div className="text-center">
           <p className="text-5xl mb-4">😿</p>
           <p className="text-gray-600 font-semibold">No encontramos este michi</p>
-          <button onClick={() => router.push("/")} className="mt-4 text-green-600 font-bold hover:underline">
+          {/* <button onClick={() => router.push("/")} className="mt-4 text-green-600 font-bold hover:underline">
             ← Volver al inicio
-          </button>
+          </button> */}
         </div>
       </div>
     );
@@ -77,20 +77,11 @@ export default function CatDetailPage() {
   };
 
   return (
-    <div className="min-h-screen bg-orange-50">
+    <div className="min-h-screen bg-white">
 
-      {/* Back button */}
-      <div className="max-w-5xl mx-auto px-4 pt-36">
-        <button
-          onClick={() => router.back()}
-          className="flex items-center gap-2 text-gray-500 hover:text-gray-800 font-medium text-sm transition"
-        >
-          ← Volver
-        </button>
-      </div>
-
-      <div className="max-w-5xl mx-auto px-4 py-8">
-        <div className="bg-white rounded-3xl overflow-hidden shadow-lg lg:flex lg:items-stretch">
+  
+      <div className="max-w-4xl mx-auto px-8 py-8 mt-[8rem]">
+        <div className="bg-white rounded-3xl overflow-hidden shadow-xl border border-gray-200 lg:flex lg:items-stretch hover:shadow-2xl transition scale-110">
 
           {/* Photo slider — mitad izquierda en lg */}
           <div className="relative aspect-square lg:aspect-auto lg:w-1/2 lg:flex-shrink-0 bg-orange-100">

@@ -29,18 +29,18 @@ export default function LoginForm() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-orange-50">
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
       <div className="w-full max-w-sm">
 
         {/* Logo / header */}
         <div className="text-center mb-8">
           <div className="text-5xl mb-3">🐱</div>
-          <h1 className="text-2xl font-bold text-orange-900">Panel Michis</h1>
-          <p className="text-orange-600 text-sm mt-1">Acceso solo para administradores</p>
+          <h1 className="text-2xl font-bold text-gray-900">Panel Michis</h1>
+          <p className="text-gray-600 text-sm mt-1">Acceso solo para administradores</p>
         </div>
 
         {/* Card */}
-        <div className="bg-white rounded-2xl shadow-sm border border-orange-100 p-8 flex flex-col gap-5">
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-300 py-10 px-6 flex flex-col gap-5 ">
 
           {error && (
             <div className="bg-red-50 border border-red-200 text-red-700 text-sm px-4 py-3 rounded-xl">
@@ -51,7 +51,7 @@ export default function LoginForm() {
           <button
             onClick={handleGoogleLogin}
             disabled={loading}
-            className="w-full flex items-center justify-center gap-3 bg-white hover:bg-gray-50 disabled:opacity-60 border border-gray-200 text-gray-700 font-semibold py-2.5 rounded-xl transition text-sm shadow-sm"
+            className="hover:scale-105 transition duration-150 w-full flex items-center justify-center gap-3 bg-white hover:bg-gray-50 disabled:opacity-60 border border-gray-200 text-gray-700 font-semibold py-2.5 rounded-xl transition text-sm shadow-sm"
           >
             <svg className="w-5 h-5" viewBox="0 0 24 24">
               <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
@@ -62,14 +62,12 @@ export default function LoginForm() {
             {loading ? 'Redirigiendo...' : 'Entrar con Google'}
           </button>
 
-          <p className="text-center text-xs text-gray-400">
+          <p className="text-center font-black text-xs text-red-400">
             Solo cuentas autorizadas pueden acceder
           </p>
         </div>
 
-        <p className="text-center text-xs text-orange-400 mt-6">
-          Solo usuarios autorizados pueden acceder
-        </p>
+     
       </div>
     </div>
   );

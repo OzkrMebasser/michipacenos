@@ -75,29 +75,22 @@ useEffect(() => {
   };
 
   return (
-    <div className="min-h-screen bg-orange-50">
+    <div className="min-h-screen bg-white mt-[6.5rem]">
       {/* Navbar */}
-      <nav className="bg-white border-b border-orange-100 px-6 py-4 flex items-center justify-between sticky top-0 z-10">
+      <nav className="bg-white border-b border-t border-gray-300 px-6 py-4 flex items-center justify-between sticky top-0 z-10">
         <div className="flex items-center gap-3">
           <span className="text-2xl">🐱</span>
           <div>
-            <h1 className="font-bold text-orange-900 leading-tight">
-              Panel Admin
+            <h1 className="font-black border-gray-800 leading-tight">
+              Panel Administrativo
             </h1>
-            <p className="text-xs text-orange-400">{session.user.email}</p>
+            <p className="text-xs text-gray-00">{session.user.email}</p>
           </div>
         </div>
-        <div className="flex items-center gap-4">
-          <Link
-            href="/"  
-            className="text-sm text-gray-600 hover:text-gray-800 font-medium px-4 py-2 rounded-xl hover:bg-gray-100 transition"
-          >
-            Ir al sitio
-          </Link>
-          </div>
+       
         <button
           onClick={handleLogout}
-          className="text-sm text-orange-600 hover:text-orange-800 font-medium px-4 py-2 rounded-xl hover:bg-orange-50 transition"
+          className="text-sm text-[#ffffff] hover:text-[#ffffff] bg-[red] font-medium px-4 py-2 rounded-xl hover:bg-[#d40606] transition hover:scale-105"
         >
           Cerrar sesión
         </button>

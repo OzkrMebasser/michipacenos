@@ -47,7 +47,7 @@ export default function AdminPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-orange-50">
+      <div className="h-[80vh] flex items-center justify-center bg-white ">
         <div className="flex flex-col items-center gap-3">
           <div className="w-10 h-10 border-4 border-orange-400 border-t-transparent rounded-full animate-spin" />
           <p className="text-orange-700 font-medium text-sm">Cargando...</p>
@@ -58,8 +58,8 @@ export default function AdminPage() {
 
   if (denied) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-orange-50">
-        <div className="bg-white rounded-2xl border border-red-100 p-8 max-w-sm w-full text-center shadow-sm">
+      <div className="h-[80vh] mt-24 flex items-center justify-center bg-white">
+        <div className="bg-white rounded-2xl border border-red-500 p-8 max-w-sm w-full text-center shadow-sm">
           <div className="text-5xl mb-4">🚫</div>
           <h2 className="text-lg font-bold text-gray-900 mb-2">Acceso denegado</h2>
           <p className="text-sm text-gray-500 mb-6">
@@ -67,7 +67,7 @@ export default function AdminPage() {
           </p>
           <button
             onClick={() => setDenied(false)}
-            className="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2.5 rounded-xl transition text-sm"
+          className="text-sm text-[#ffffff] hover:text-[#ffffff] bg-[red] font-medium px-4 py-2 rounded-xl hover:bg-[#d40606] transition hover:scale-105"
           >
             Intentar con otra cuenta
           </button>

@@ -33,14 +33,17 @@ export default function About() {
             visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
-          <h2 className="text-3xl font-black text-[#ff3ca5] font-logo">
+          <h2 className="text-2xl lg:text-4xl font-black text-[#ff3ca5] font-logo">
             ¿Quiénes somos?{" "}
             <img
-              src="https://res.cloudinary.com/dmtehcd5t/image/upload/v1779947669/michipaceno-icono_5_yluzqc.png"
+              src="https://res.cloudinary.com/dmtehcd5t/image/upload/v1780017073/michipaceno-icono-logo_gy5zl4.png"
               alt="gatito quienes somos"
               className="inline-block w-8 h-8 ml-1"
             />
-          </h2>
+          </h2>{" "}
+          <p className="text-gray-600 text-md font-semibold leading-relaxed -mt-4">
+            Cada rescate es una historia de esperanza.
+          </p>
           <p className="text-gray-600 leading-relaxed">
             Somos una organización que se creó en enero del 2024, con un grupo
             de 10 personas que coincidimos con la misma sensibilidad, amor y
@@ -49,9 +52,6 @@ export default function About() {
             gatos más vulnerables de la calle brindándoles hogar temporal,
             cuidado y protección para posteriormente buscarles un hogar. Así es
             como nació Michipaceños.
-          </p>
-          <p className="text-[#57971e] font-bold italic text-lg">
-            Cada rescate es una historia de esperanza.
           </p>
           {/* <button className="bg-green-600 hover:bg-green-700 text-white font-bold px-6 py-3 rounded-full flex items-center gap-2 transition-all hover:scale-105">
             Conócenos más 🐾

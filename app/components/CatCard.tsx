@@ -72,12 +72,16 @@ export default function CatCard({ cat, index }: CatCardProps) {
           onClick={() => router.push(`/michi/${cat.id}`)}
           className="w-full mt-2 bg-green-600 hover:bg-green-700 text-white font-bold py-2 rounded-xl text-sm transition-all hover:scale-[1.02]"
         > */}
-        <Link
-          href={`/michi/${cat.id}`}
-          className="w-full justify-center bg-[#00bcff] hover:bg-[#009fd9] text-gray-900 font-bold px-6 py-2.5 rounded-xl flex items-center gap-2 transition-all hover:scale-105 shadow-lg shadow-sky-100"
-        >
-          Ver detalles
-        </Link>
+     <Link
+  href={`/michi/${cat.id}`}
+  className={`w-full justify-center font-bold px-6 py-2.5 rounded-xl flex items-center gap-2 transition-all hover:scale-105 shadow-lg ${
+    cat.gender === 'hembra'
+      ? 'bg-[#ff3ca5] hover:bg-[#d42281] text-gray-900 shadow-pink-100'
+      : 'bg-[#0bbaf7] hover:bg-[#08a4dd] text-gray-900 shadow-sky-100'
+  }`}
+>
+  Ver detalles
+</Link>
       </div>
     </div>
   );

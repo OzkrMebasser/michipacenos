@@ -29,7 +29,7 @@ export default function Hero() {
             {" "}
             <Link
               href="/michis-en-adopcion"
-              className="bg-[#00bcff] hover:bg-[#00bcff] text-gray-900 font-bold px-6 py-2.5 rounded-xl flex items-center gap-2 transition-all hover:scale-105 shadow-lg shadow-sky-100"
+              className="bg-[#0bbaf7] hover:bg-[#08a4dd] text-gray-900 font-bold px-6 py-2.5 rounded-xl flex items-center gap-2 transition-all hover:scale-105 shadow-lg shadow-sky-100"
             >
               Adoptar un michi{" "}
               <img

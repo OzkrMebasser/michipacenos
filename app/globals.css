@@ -7,7 +7,7 @@
   --green: #57971e;
   --hover-green: #3b720b;
   --pink: #ff3ca5;
-  --blue: #00bcff;
+  --blue: #0bbaf7;
 }
 
 @theme inline {
@@ -34,4 +34,18 @@ body {
 }
 html {
   scroll-behavior: smooth;
+}
+
+@keyframes michiPop {
+  0% {
+    opacity: 0;
+    transform: scale(0) rotate(-10deg);
+  }
+  80% {
+    transform: scale(1.2) rotate(5deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
 }

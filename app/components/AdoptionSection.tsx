@@ -37,11 +37,16 @@ export default function AdoptionSection() {
     <section className="py-12 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 lg:px-8">
         {/* Header */}
-        <div className="flex items-center justify-between mb-8">
-          <h2 className="text-3xl font-black text-[#ff3ca5] font-logo">
-         Michis en adopción 
-         <img src="https://res.cloudinary.com/dmtehcd5t/image/upload/v1779947670/michipaceno-icono_7_lcgn5w.png" alt="gatito en adopción" className="inline-block w-9 h-9 ml-2 scale-x-[-1]"   />
+        <div className="flex items-center justify-between ">
+          <h2 className="text-2xl lg:text-4xl font-black text-[#ff3ca5] font-logo text-left ">
+            Michis en adopción
+            <img
+              src="https://res.cloudinary.com/dmtehcd5t/image/upload/v1779947669/michipaceno-icono_5_yluzqc.png"
+              alt="gatito en adopción"
+              className="inline-block w-9 h-9 ml-2 scale-x-[-1]"
+            />
           </h2>
+
           {/* <button
             onClick={() => router.push("/michis-en-adopcion")}
             className="text-green-600 font-semibold hover:underline text-sm hidden lg:block"
@@ -49,7 +54,9 @@ export default function AdoptionSection() {
             Ver todos los michis →
           </button> */}
         </div>
-
+        <p className="text-gray-600 text-md font-semibold leading-relaxed mb-6">
+          ¡Adoptar es salvar vidas!
+        </p>
         {/* Loading */}
         {loading && (
           <div className="flex justify-center py-16">
@@ -63,7 +70,7 @@ export default function AdoptionSection() {
             {/* Arrow left */}
             <button
               onClick={() => scroll("left")}
-              className="flex absolute -left-3 lg:-left-6 top-1/2 -translate-y-1/2 z-10 w-10 h-10 lg:w-12 lg:h-12 bg-white shadow-lg rounded-full items-center justify-center text-green-600 hover:bg-green-600 hover:text-white transition-all border border-gray-100"
+              className="flex absolute -left-3 lg:-left-6 top-1/2 -translate-y-1/2 z-10 w-10 h-10 lg:w-12 lg:h-12 bg-white shadow-lg rounded-full items-center justify-center text-[#57971e] hover:bg-[#4a8a1a] hover:text-white transition-all border border-gray-100"
             >
               <FiChevronLeft size={20} strokeWidth={2.5} />
             </button>
@@ -88,7 +95,7 @@ export default function AdoptionSection() {
             {/* Arrow right */}
             <button
               onClick={() => scroll("right")}
-              className="flex absolute -right-3 lg:-right-6 top-1/2 -translate-y-1/2 z-10 w-10 h-10 lg:w-12 lg:h-12 bg-white shadow-lg rounded-full items-center justify-center text-green-600 hover:bg-green-600 hover:text-white transition-all border border-gray-100"
+              className="flex absolute -right-3 lg:-right-6 top-1/2 -translate-y-1/2 z-10 w-10 h-10 lg:w-12 lg:h-12 bg-white shadow-lg rounded-full items-center justify-center text-[#57971e] hover:bg-[#4a8a1a] hover:text-white transition-all border border-gray-100"
             >
               <FiChevronRight size={20} strokeWidth={2.5} />
             </button>
@@ -107,9 +114,14 @@ export default function AdoptionSection() {
           <div className="mt-8 text-center">
             <button
               onClick={() => router.push("/michis-en-adopcion")}
-              className="bg-green-600 hover:bg-green-700 text-white font-bold px-8 py-3 rounded-full transition"
+              className="group bg-[#57971e] hover:bg-[#4a8a1a] text-gray-900 font-bold px-8 py-3 rounded-xl transition-all duration-300 hover:px-10"
             >
-              Ver todos los michis 🐾
+              Ver todos los michis
+              <img
+                src="https://res.cloudinary.com/dmtehcd5t/image/upload/v1780042409/flecha-gatito_voq3x2.png"
+                alt="gatito"
+                className="w-12 h-6 inline-block ml-2 mb-2 transition-transform duration-300 group-hover:translate-x-2"
+              />
             </button>
           </div>
         )}
