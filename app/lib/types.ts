@@ -43,6 +43,22 @@ export interface HowToHelp {
   description: string;
 }
 
+
+export interface Campaign {
+  id: string;
+  title: string;
+  subtitle?: string;
+  month?: string;
+  date_label?: string;
+  place?: string;
+  price?: string;
+  contact?: string;
+  notes?: string;
+  is_active: boolean;
+  created_at: string;
+  sponsor_logos?: string[];
+}
+
 export type FilterKey =
   | 'todos'
   | 'hembra'

@@ -2,6 +2,7 @@
 import Hero from "./components/Hero";
 import Stats from "./components/Stats";
 import About from "./components/About";
+import CampaignBanner from "./components/CampaignBanner";
 import AdoptionSection from "./components/AdoptionSection";
 import DonateSection from "./components/DonateSection";
 import Stories from "./components/Stories";
@@ -16,6 +17,7 @@ export default function Home() {
       <Hero />
       <Stats />
       <About />
+      <CampaignBanner />
       <AdoptionSection />
       <DonateSection />
       <Stories />
