@@ -31,14 +31,16 @@ function NavLink({ href, label, className, children, onAnchorClick, onClick }: N
     <Link
       href={href}
       className={className}
-      onClick={isAnchor ? (e) => { onAnchorClick(e, href); onClick?.(); } : onClick}  // 👈
-      scroll={false}
+      onClick={(e) => {
+        if (isAnchor) onAnchorClick(e, href);
+        onClick?.();
+      }}
+      scroll={!isAnchor} // 👈 solo desactiva scroll en anchors, no en links normales
     >
       {children ?? label}
     </Link>
   );
 }
-
 export default function Navbar() {
   const scrolled = useScrolled(20);
   const [menuOpen, setMenuOpen] = useState(false);
