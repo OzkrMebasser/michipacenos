@@ -69,6 +69,7 @@ export default function AdoptionSection() {
           <div className="relative">
             {/* Arrow left */}
             <button
+              type="button"
               onClick={() => scroll("left")}
               className="flex absolute -left-3 lg:-left-6 top-1/2 -translate-y-1/2 z-10 w-10 h-10 lg:w-12 lg:h-12 bg-white shadow-lg rounded-full items-center justify-center text-[#57971e] hover:bg-[#4a8a1a] hover:text-white transition-all border border-gray-100"
             >
@@ -94,6 +95,7 @@ export default function AdoptionSection() {
 
             {/* Arrow right */}
             <button
+              type="button"
               onClick={() => scroll("right")}
               className="flex absolute -right-3 lg:-right-6 top-1/2 -translate-y-1/2 z-10 w-10 h-10 lg:w-12 lg:h-12 bg-white shadow-lg rounded-full items-center justify-center text-[#57971e] hover:bg-[#4a8a1a] hover:text-white transition-all border border-gray-100"
             >

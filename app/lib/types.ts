@@ -57,6 +57,7 @@ export interface Campaign {
   is_active: boolean;
   created_at: string;
   sponsor_logos?: string[];
+  facebook_url?: string;
 }
 
 export type FilterKey =

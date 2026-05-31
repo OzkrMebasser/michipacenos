@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 
-const WHATSAPP_NUMBER = "526121234567"; 
+const WHATSAPP_NUMBER = "526121767890"; 
 
 export default function WhatsAppButton() {
   return (

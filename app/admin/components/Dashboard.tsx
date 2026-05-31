@@ -87,7 +87,13 @@ useEffect(() => {
             <p className="text-xs text-gray-00">{session.user.email}</p>
           </div>
         </div>
-       
+
+         <Link
+          href="/admin/campana"
+          className="text-sm text-gray-500 hover:text-gray-700 font-medium px-4 py-2 rounded-xl hover:bg-white transition"
+        >
+          Crear campaña
+        </Link>
         <button
           onClick={handleLogout}
           className="text-sm text-[#ffffff] hover:text-[#ffffff] bg-[red] font-medium px-4 py-2 rounded-xl hover:bg-[#d40606] transition hover:scale-105"

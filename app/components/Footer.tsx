@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 const FACEBOOK_URL = "https://www.facebook.com/profile.php?id=61554151521513";
-const WHATSAPP_NUMBER = "526121234567"; // ← cambia por el número real con código de país
+const WHATSAPP_NUMBER = "526121767890"; 
 
 export default function Contact() {
   const [nombre, setNombre] = useState("");

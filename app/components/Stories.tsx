@@ -54,7 +54,7 @@ export default function Stories() {
                   </div>
                 </div>
                 <p className="text-gray-600 text-sm leading-relaxed italic">
-                  "{story.text}"
+                  &ldquo;{story.text}&rdquo;
                 </p>
                 <div className="flex text-yellow-400 text-sm">★★★★★</div>
               </div>

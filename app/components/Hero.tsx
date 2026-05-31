@@ -39,7 +39,7 @@ export default function Hero() {
               />
             </Link>
             <Link
-              href="#donar"
+              href="/#donar"
               className="bg-[#ff3ca5] hover:bg-[#d42281] text-gray-900 font-bold px-6 py-2.5 rounded-xl flex items-center gap-2 transition-all hover:scale-105 shadow-lg shadow-pink-200"
             >
               Donar{" "}

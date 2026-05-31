@@ -49,3 +49,7 @@ html {
     transform: scale(1) rotate(0deg);
   }
 }
+
+html {
+  scroll-behavior: smooth;
+}
