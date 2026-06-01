@@ -60,6 +60,32 @@ export interface Campaign {
   facebook_url?: string;
 }
 
+export interface Adoption {
+  id: string;
+  cat_id: string | null;
+  adopter_name: string;
+  adopter_email?: string;
+  adopter_phone?: string;
+  adopter_address?: string;
+  adoption_date: string;
+  adoption_place?: string;
+  notes?: string;
+  created_at: string;
+  follow_ups?: FollowUp[];
+  cat?: { name: string; image_url: string | null };
+}
+
+
+export type AdoptionInsert = Omit<Adoption, 'id' | 'created_at' | 'cat'>;
+
+export interface FollowUp {
+  date: string;
+  note: string;
+  created_by?: string;
+}
+
+
+
 export type FilterKey =
   | 'todos'
   | 'hembra'

@@ -70,10 +70,7 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const handleAnchorClick = (
-  e: React.MouseEvent<HTMLAnchorElement>,
-  href: string
-) => {
+const handleAnchorClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
   if (!href.startsWith("/#")) return;
   e.preventDefault();
   const anchor = href.replace("/#", "");
@@ -81,8 +78,11 @@ export default function Navbar() {
   if (pathname === "/") {
     document.getElementById(anchor)?.scrollIntoView({ behavior: "smooth" });
   } else {
-    // Navegación completa, no client-side
-    window.location.href = `/#${anchor}`;
+    router.push(href);
+    // Espera a que la página cargue y las secciones se monten
+    setTimeout(() => {
+      document.getElementById(anchor)?.scrollIntoView({ behavior: "smooth" });
+    }, 500);
   }
   setMenuOpen(false);
 };

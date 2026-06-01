@@ -31,3 +31,7 @@ export function useScrolled(threshold = 20) {
   }, [threshold]);
   return scrolled;
 }
+
+export function parseLocalDate(dateStr: string): Date {
+  return new Date(`${dateStr}T12:00:00`);
+}
