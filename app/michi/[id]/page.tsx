@@ -5,7 +5,7 @@ import { useParams, useRouter } from "next/navigation";
 import { supabase } from "../../admin/lib/supabase";
 import type { Cat } from "../../lib/types";
 
-const WHATSAPP_NUMBER = "5219841681509";
+const WHATSAPP_NUMBER = "526122891600";
 
 const STATUS_CONFIG = {
   disponible: { label: "Disponible", color: "bg-green-500" },
