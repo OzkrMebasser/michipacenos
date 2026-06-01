@@ -200,7 +200,7 @@ export default function AdoptionTable({
                         {a.adopter_name}
                       </p>
                       <p className="text-xs text-gray-400">
-                        {new Date(a.adoption_date).toLocaleDateString("es-MX", {
+                        {parseLocalDate(a.adoption_date).toLocaleDateString("es-MX", {
                           day: "2-digit",
                           month: "short",
                           year: "numeric",
