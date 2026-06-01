@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { supabase } from "../lib/supabase";
-import type { Adoption, AdoptionInsert } from "../../lib/types";
-import type { Cat } from "../../lib/types";
+// import type { Adoption, AdoptionInsert } from "../../lib/types";
+import type { Cat, Adoption, AdoptionInsert, FollowUp } from "../../lib/types";
 
 interface AdoptionFormProps {
   adoption: Adoption | null;
