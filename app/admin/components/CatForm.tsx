@@ -24,7 +24,7 @@ const EMPTY_FORM: CatInsert = {
   sterilization_reserved_date: null,
   ficha: null,
   deleted_at: null,
-  ficha: null,
+  
 };
 
 export default function CatForm({ cat, onSave, onCancel }: CatFormProps) {
