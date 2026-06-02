@@ -133,7 +133,7 @@ export default function CatForm({ cat, onSave, onCancel }: CatFormProps) {
       sterilization_date: form.sterilized ? (form.sterilization_date || null) : null,
       sterilization_reserved_date: !form.sterilized ? (form.sterilization_reserved_date || null) : null,
       ficha: form.ficha ? form.ficha.trim() : null,
-      deleted_at: cat.deleted_at,
+      deleted_at: cat?.deleted_at ?? null,
     };
 
     let dbError = null;
