@@ -222,135 +222,155 @@ export default function CatTable({
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-orange-50">
-                  {filtered.map((cat) => (
-                    <tr
-                      key={cat.id}
-                      className="hover:bg-orange-50/50 transition"
-                    >
-                      <td className="px-5 py-4">
-                        <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 rounded-xl overflow-hidden bg-orange-100 flex-shrink-0">
-                            {cat.image_url ? (
-                              <img
-                                src={cat.image_url}
-                                alt={cat.name}
-                                className="w-full h-full object-cover"
-                              />
-                            ) : (
-                              <div className="w-full h-full flex items-center justify-center text-lg">
-                                🐱
+                  {filtered.map((cat) => {
+                    const imgSrc = cat.image_url ?? cat.photos?.[0] ?? null;
+                    return (
+                      <tr
+                        key={cat.id}
+                        className="hover:bg-orange-50/50 transition"
+                      >
+                        <td className="px-5 py-4">
+                          <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 rounded-xl overflow-hidden bg-orange-100 flex-shrink-0">
+                              {imgSrc ? (
+                                <img
+                                  src={imgSrc}
+                                  alt={cat.name}
+                                  className="w-full h-full object-cover"
+                                />
+                              ) : (
+                                <div className="w-full h-full flex items-center justify-center text-lg">
+                                  🐱
+                                </div>
+                              )}
+                            </div>
+                            <div>
+                              <div className="flex items-center gap-2">
+                                <p className="font-semibold text-gray-900">
+                                  {cat.name}
+                                </p>
+                                {cat.ficha && (
+                                  <span className="inline-flex items-center px-1.5 py-0.5 rounded-md text-xs font-mono font-medium bg-orange-50 text-orange-600 border border-orange-200">
+                                    #{cat.ficha}
+                                  </span>
+                                )}
                               </div>
-                            )}
+                              <p className="text-xs text-gray-400 truncate max-w-[180px]">
+                                {cat.color}
+                              </p>
+                            </div>
                           </div>
-                          <div>
-                            <p className="font-semibold text-gray-900">
-                              {cat.name}
-                            </p>
-                            <p className="text-xs text-gray-400 truncate max-w-[180px]">
-                              {cat.color}
-                            </p>
+                        </td>
+                        <td className="px-5 py-4 text-gray-600">{cat.age}</td>
+                        <td className="px-5 py-4 text-gray-600 capitalize">
+                          {cat.gender}
+                        </td>
+                        <td className="px-5 py-4">
+                          <span
+                            className={`inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-medium ${STATUS_LABELS[cat.status].class}`}
+                          >
+                            {STATUS_LABELS[cat.status].label}
+                          </span>
+                        </td>
+                        <td className="px-5 py-4">
+                          <SterilizedBadge cat={cat} />
+                        </td>
+                        <td className="px-5 py-4 text-right">
+                          <div className="flex items-center justify-end gap-2">
+                            <button
+                              onClick={() =>
+                                router.push(`/admin/michis/${cat.id}`)
+                              }
+                              className="text-blue-500 hover:text-blue-700 font-medium text-xs px-3 py-1.5 rounded-lg hover:bg-blue-50 transition"
+                            >
+                              Ver
+                            </button>
+                            <button
+                              onClick={() => onEdit(cat)}
+                              className="text-orange-600 hover:text-orange-800 font-medium text-xs px-3 py-1.5 rounded-lg hover:bg-orange-100 transition"
+                            >
+                              Editar
+                            </button>
+                            <button
+                              onClick={() => onDelete(cat.id)}
+                              className="text-red-500 hover:text-red-700 font-medium text-xs px-3 py-1.5 rounded-lg hover:bg-red-50 transition"
+                            >
+                              Eliminar
+                            </button>
                           </div>
-                        </div>
-                      </td>
-                      <td className="px-5 py-4 text-gray-600">{cat.age}</td>
-                      <td className="px-5 py-4 text-gray-600 capitalize">
-                        {cat.gender}
-                      </td>
-                      <td className="px-5 py-4">
-                        <span
-                          className={`inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-medium ${STATUS_LABELS[cat.status].class}`}
-                        >
-                          {STATUS_LABELS[cat.status].label}
-                        </span>
-                      </td>
-                      <td className="px-5 py-4">
-                        <SterilizedBadge cat={cat} />
-                      </td>
-                      <td className="px-5 py-4 text-right">
-                        <div className="flex items-center justify-end gap-2">
-                          <button
-                            onClick={() =>
-                              router.push(`/admin/michis/${cat.id}`)
-                            }
-                            className="text-blue-500 hover:text-blue-700 font-medium text-xs px-3 py-1.5 rounded-lg hover:bg-blue-50 transition"
-                          >
-                            Ver
-                          </button>
-                          <button
-                            onClick={() => onEdit(cat)}
-                            className="text-orange-600 hover:text-orange-800 font-medium text-xs px-3 py-1.5 rounded-lg hover:bg-orange-100 transition"
-                          >
-                            Editar
-                          </button>
-                          <button
-                            onClick={() => onDelete(cat.id)}
-                            className="text-red-500 hover:text-red-700 font-medium text-xs px-3 py-1.5 rounded-lg hover:bg-red-50 transition"
-                          >
-                            Eliminar
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
+                        </td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </table>
             </div>
 
             {/* Mobile cards */}
             <div className="sm:hidden divide-y divide-orange-50">
-              {filtered.map((cat) => (
-                <div key={cat.id} className="p-4 flex gap-3">
-                  <div className="w-14 h-14 rounded-xl overflow-hidden bg-orange-100 flex-shrink-0">
-                    {cat.image_url ? (
-                      <img
-                        src={cat.image_url}
-                        alt={cat.name}
-                        className="w-full h-full object-cover"
-                      />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center text-2xl">
-                        🐱
+              {filtered.map((cat) => {
+                const imgSrc = cat.image_url ?? cat.photos?.[0] ?? null;
+                return (
+                  <div key={cat.id} className="p-4 flex gap-3">
+                    <div className="w-14 h-14 rounded-xl overflow-hidden bg-orange-100 flex-shrink-0">
+                      {imgSrc ? (
+                        <img
+                          src={imgSrc}
+                          alt={cat.name}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center text-2xl">
+                          🐱
+                        </div>
+                      )}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-start justify-between gap-2">
+                        <div className="flex items-center gap-1.5 min-w-0">
+                          <p className="font-semibold text-gray-900">{cat.name}</p>
+                          {cat.ficha && (
+                            <span className="inline-flex items-center px-1.5 py-0.5 rounded-md text-xs font-mono font-medium bg-orange-50 text-orange-600 border border-orange-200 flex-shrink-0">
+                              #{cat.ficha}
+                            </span>
+                          )}
+                        </div>
+                        <span
+                          className={`inline-flex items-center px-2 py-0.5 rounded-lg text-xs font-medium flex-shrink-0 ${STATUS_LABELS[cat.status].class}`}
+                        >
+                          {STATUS_LABELS[cat.status].label}
+                        </span>
                       </div>
-                    )}
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-start justify-between gap-2">
-                      <p className="font-semibold text-gray-900">{cat.name}</p>
-                      <span
-                        className={`inline-flex items-center px-2 py-0.5 rounded-lg text-xs font-medium flex-shrink-0 ${STATUS_LABELS[cat.status].class}`}
-                      >
-                        {STATUS_LABELS[cat.status].label}
-                      </span>
-                    </div>
-                    <p className="text-xs text-gray-500 mt-0.5">
-                      {cat.age} · {cat.gender} · {cat.color}
-                    </p>
-                    <div className="mt-1">
-                      <SterilizedBadge cat={cat} />
-                    </div>
-                    <div className="flex gap-2 mt-2">
-                      <button
-  onClick={() => router.push(`/admin/michis/${cat.id}`)}
-  className="text-blue-500 font-medium text-xs"
->
-  Ver
-</button>
-                      <button
-                        onClick={() => onEdit(cat)}
-                        className="text-orange-600 font-medium text-xs"
-                      >
-                        Editar
-                      </button>
-                      <button
-                        onClick={() => onDelete(cat.id)}
-                        className="text-red-500 font-medium text-xs"
-                      >
-                        Eliminar
-                      </button>
+                      <p className="text-xs text-gray-500 mt-0.5">
+                        {cat.age} · {cat.gender} · {cat.color}
+                      </p>
+                      <div className="mt-1">
+                        <SterilizedBadge cat={cat} />
+                      </div>
+                      <div className="flex gap-2 mt-2">
+                        <button
+                          onClick={() => router.push(`/admin/michis/${cat.id}`)}
+                          className="text-blue-500 font-medium text-xs"
+                        >
+                          Ver
+                        </button>
+                        <button
+                          onClick={() => onEdit(cat)}
+                          className="text-orange-600 font-medium text-xs"
+                        >
+                          Editar
+                        </button>
+                        <button
+                          onClick={() => onDelete(cat.id)}
+                          className="text-red-500 font-medium text-xs"
+                        >
+                          Eliminar
+                        </button>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </>
         )}

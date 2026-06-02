@@ -82,7 +82,9 @@ export interface Adoption {
     sterilized: boolean;
     sterilization_date: string | null;
     sterilization_reserved_date: string | null;
+    photos: string[];
   };
+  ficha?: string | null;
   
 }
 

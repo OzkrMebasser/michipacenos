@@ -187,8 +187,19 @@ export default function CatDetailAdminPage() {
             <div className="p-6 flex flex-col gap-4 flex-1">
               <div>
                 <h2 className="text-2xl font-black text-gray-900">
-                  {cat.name} <span className={genderColor}>{genderIcon}</span>
+                  {cat.name} <span className={genderColor}>{genderIcon}</span>{" "}
+                  {cat.ficha && (
+                    <div className="flex flex-col gap-0.5">
+                      <p className="text-xs text-gray-400 font-semibold uppercase tracking-wide">
+                        Ficha <span className="inline-flex items-center px-1.5 py-0.5 rounded-md text-xs font-mono font-medium bg-orange-50 text-orange-600 border border-orange-200 w-fit">
+                        #{cat.ficha}
+                      </span>
+                      </p>
+                      
+                    </div>
+                  )}
                 </h2>
+
                 <p className="text-sm text-gray-500 mt-0.5">
                   {cat.age} · {cat.color}
                 </p>
@@ -340,6 +351,7 @@ export default function CatDetailAdminPage() {
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <Field label="ID" value={cat.id} />
+
             <Field
               label="Registrado el"
               value={

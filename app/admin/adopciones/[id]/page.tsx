@@ -11,12 +11,13 @@ export default function AdoptionDetailPage() {
   const router = useRouter();
   const [adoption, setAdoption] = useState<Adoption | null>(null);
   const [loading, setLoading] = useState(true);
+  const [currentPhoto, setCurrentPhoto] = useState(0);
 
   useEffect(() => {
     supabase
       .from("adoptions")
       .select(
-        "*, cat:cats(name, image_url, age, gender, color, sterilized, sterilization_date, sterilization_reserved_date)",
+        "*, cat:cats(name, image_url, photos, age, gender, color, sterilized, sterilization_date, sterilization_reserved_date, ficha)",
       )
       .eq("id", id)
       .single()
@@ -41,6 +42,14 @@ export default function AdoptionDetailPage() {
       </div>
     );
   }
+
+  const catImageUrl = adoption.cat?.image_url ?? null;
+  const catPhotos = (adoption.cat as any)?.photos ?? [];
+  const allPhotos = [
+    ...(catImageUrl ? [catImageUrl] : []),
+    ...catPhotos,
+  ];
+  const hasMultiple = allPhotos.length > 1;
 
   return (
     <div className="min-h-screen bg-gray-50 pt-[6.5rem]">
@@ -84,60 +93,150 @@ export default function AdoptionDetailPage() {
           </div>
         )} */}
         {adoption.cat && (
-          <div className="bg-white rounded-2xl border border-orange-100 p-6 flex items-center gap-5">
-            <div className="w-20 h-20 rounded-2xl overflow-hidden bg-orange-100 flex-shrink-0">
-              {adoption.cat.image_url ? (
-                <img
-                  src={adoption.cat.image_url}
-                  alt={adoption.cat.name}
-                  className="w-full h-full object-cover"
-                />
-              ) : (
-                <div className="w-full h-full flex items-center justify-center text-3xl">
-                  🐱
-                </div>
-              )}
-            </div>
-            <div className="flex flex-col gap-1">
-              <p className="text-xs text-orange-500 font-semibold uppercase tracking-wide">
-                Michi adoptado
-              </p>
-              <p className="text-xl font-black text-gray-900">
-                {adoption.cat.name}
-              </p>
-              <p className="text-sm text-gray-500">
-                {(adoption.cat as any).age} · {(adoption.cat as any).gender} ·{" "}
-                {(adoption.cat as any).color}
-              </p>
+          <div className="bg-white rounded-2xl border border-orange-100 overflow-hidden">
+            <div className="flex flex-col sm:flex-row">
+              {/* Foto con galería */}
+              <div className="relative sm:w-48 aspect-square bg-orange-50 flex-shrink-0">
+                {allPhotos.length > 0 ? (
+                  <img
+                    src={allPhotos[currentPhoto]}
+                    alt={adoption.cat.name}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center text-4xl">
+                    🐱
+                  </div>
+                )}
 
-              {/* Esterilización */}
-              {(adoption.cat as any).sterilized ? (
-                <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-medium bg-teal-100 text-teal-800 w-fit mt-1">
-                  {(adoption.cat as any).sterilization_date
-                    ? `✂️ Esterilizado/a · ${new Date((adoption.cat as any).sterilization_date + "T12:00").toLocaleDateString("es-MX", { day: "2-digit", month: "short", year: "numeric" })}`
-                    : "✂️ Esterilizado/a · sin fecha"}
-                </span>
-              ) : (
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-medium bg-gray-100 text-gray-500 w-fit mt-1">
-                  ✗ No esterilizado/a
-                  {(adoption.cat as any).sterilization_reserved_date && (
-                    <>
-                      <span className="w-px h-3 bg-gray-300" />
-                      <span className="text-orange-500 font-semibold">
-                        🗓️{" "}
-                        {new Date(
-                          (adoption.cat as any).sterilization_reserved_date +
-                            "T12:00",
-                        ).toLocaleDateString("es-MX", {
-                          day: "2-digit",
-                          month: "2-digit",
-                          year: "2-digit",
-                        })}
+                {/* Arrows */}
+                {hasMultiple && (
+                  <>
+                    <button
+                      onClick={() =>
+                        setCurrentPhoto(
+                          (p) => (p - 1 + allPhotos.length) % allPhotos.length,
+                        )
+                      }
+                      className="absolute left-2 top-1/2 -translate-y-1/2 w-7 h-7 bg-black/40 hover:bg-black/60 text-white rounded-full flex items-center justify-center text-lg"
+                    >
+                      ‹
+                    </button>
+                    <button
+                      onClick={() =>
+                        setCurrentPhoto((p) => (p + 1) % allPhotos.length)
+                      }
+                      className="absolute right-2 top-1/2 -translate-y-1/2 w-7 h-7 bg-black/40 hover:bg-black/60 text-white rounded-full flex items-center justify-center text-lg"
+                    >
+                      ›
+                    </button>
+                  </>
+                )}
+
+                {/* Dots */}
+                {hasMultiple && (
+                  <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1">
+                    {allPhotos.map((_, i) => (
+                      <button
+                        key={i}
+                        title={`Foto ${i + 1}`}
+                        onClick={() => setCurrentPhoto(i)}
+                        className={`h-1.5 rounded-full transition-all ${i === currentPhoto ? "bg-white w-3" : "bg-white/50 w-1.5"}`}
+                      />
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Info del michi */}
+              <div className="p-6 flex flex-col gap-1">
+                <p className="text-xs text-orange-500 font-semibold uppercase tracking-wide">
+                  Michi adoptado
+                </p>
+                <p className="text-xl font-black text-gray-900">
+                  {/* {adoption.cat.name}
+                   {cat.ficha && (
+                      <div className="flex flex-col gap-0.5">
+                        <p className="text-xs text-gray-400 font-semibold uppercase tracking-wide">
+                          Ficha <span className="inline-flex items-center px-1.5 py-0.5 rounded-md text-xs font-mono font-medium bg-orange-50 text-orange-600 border border-orange-200 w-fit">
+                          #{cat.ficha}
+                        </span>
+                        </p>
+                        
+                      </div>
+                    )} */}
+                  {(adoption.cat as any).ficha && (
+                    <span className="flex flex-col gap-0.5">
+                      <span className="text-xs text-gray-400 font-semibold uppercase tracking-wide">
+                        Ficha{" "}
+                        <span className="inline-flex items-center px-1.5 py-0.5 rounded-md text-xs font-mono font-medium bg-orange-50 text-orange-600 border border-orange-200 w-fit">
+                          #{(adoption.cat as any).ficha}
+                        </span>
                       </span>
-                    </>
+                    </span>
+                    // <span className="ml-2 inline-flex items-center px-1.5 py-0.5 rounded-md text-xs font-mono font-medium bg-orange-50 text-orange-600 border border-orange-200 w-fit">
+                    //   #{(adoption.cat as any).ficha}
+                    // </span>
                   )}
-                </span>
-              )}
+                </p>
+                <p className="text-sm text-gray-500">
+                  {(adoption.cat as any).age} · {(adoption.cat as any).gender} ·{" "}
+                  {(adoption.cat as any).color}
+                </p>
+
+                {/* Esterilización */}
+                {(adoption.cat as any).sterilized ? (
+                  <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-medium bg-teal-100 text-teal-800 w-fit mt-1">
+                    {(adoption.cat as any).sterilization_date
+                      ? `✂️ Esterilizado/a · ${new Date((adoption.cat as any).sterilization_date + "T12:00").toLocaleDateString("es-MX", { day: "2-digit", month: "short", year: "numeric" })}`
+                      : "✂️ Esterilizado/a · sin fecha"}
+                  </span>
+                ) : (
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-medium bg-gray-100 text-gray-500 w-fit mt-1">
+                    ✗ No esterilizado/a
+                    {(adoption.cat as any).sterilization_reserved_date && (
+                      <>
+                        <span className="w-px h-3 bg-gray-300 ml-3" /> Reserva
+                        para esterilizar:
+                        <span className="text-orange-500 font-semibold ml-0">
+                          🗓️{" "}
+                          {new Date(
+                            (adoption.cat as any).sterilization_reserved_date +
+                              "T12:00",
+                          ).toLocaleDateString("es-MX", {
+                            day: "2-digit",
+                            month: "2-digit",
+                            year: "2-digit",
+                          })}
+                        </span>
+                      </>
+                    )}
+                  </span>
+                )}
+
+                {/* Miniaturas */}
+                {hasMultiple && (
+                  <div className="flex flex-wrap gap-1.5 mt-3">
+                    {allPhotos.map((url, i) => (
+                      <button
+                        key={i}
+                        onClick={() => setCurrentPhoto(i)}
+                        className={`w-10 h-10 rounded-lg overflow-hidden border-2 transition ${
+                          i === currentPhoto
+                            ? "border-orange-400"
+                            : "border-transparent opacity-60 hover:opacity-100"
+                        }`}
+                      >
+                        <img
+                          src={url}
+                          alt={`foto ${i + 1}`}
+                          className="w-full h-full object-cover"
+                        />
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         )}

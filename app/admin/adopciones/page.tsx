@@ -15,7 +15,7 @@ export default function AdopcionesPage() {
   const fetchAdoptions = useCallback(async () => {
     const { data, error } = await supabase
       .from("adoptions")
-      .select("*, cat:cats(name, image_url, sterilized, sterilization_date)")
+      .select("*, cat:cats(name, image_url, photos, sterilized, sterilization_date, sterilization_reserved_date, ficha)")
       .order("adoption_date", { ascending: false });
 
     if (!error && data) setAdoptions(data as Adoption[]);
@@ -71,7 +71,7 @@ export default function AdopcionesPage() {
         </a>
       </nav>
 
-      <div className="max-w-6xl mx-auto px-6 py-8">
+      <div className="max-w-7xl mx-auto px-6 py-8">
         {/* Stat rápido */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
           <div className="bg-white rounded-2xl border border-orange-100 p-4 flex flex-col gap-1">
