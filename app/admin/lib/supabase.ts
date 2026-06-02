@@ -15,6 +15,7 @@ type CatRow = {
   sterilization_date: string | null;
   sterilization_reserved_date: string | null;
   deleted_at: string | null;
+  ficha: string | null;
 };
 
 export type CatInsert = Omit<CatRow, 'id' | 'created_at'>;
