@@ -11,7 +11,7 @@ interface CatCardProps {
 
 const STATUS_CONFIG = {
   disponible: { label: "Disponible", color: "bg-green-500" },
-  en_proceso: { label: "En proceso", color: "bg-yellow-400" },
+  en_recuperacion: { label: "En Recuperación", color: "bg-yellow-400" },
   adoptado: { label: "Adoptado", color: "bg-blue-500" },
 };
 

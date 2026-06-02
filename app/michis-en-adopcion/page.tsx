@@ -10,7 +10,7 @@ const FILTERS: { key: FilterKey; label: string; icon: string }[] = [
   { key: "hembra", label: "Hembras", icon: "♀️" },
   { key: "macho", label: "Machos", icon: "♂️" },
   { key: "disponible", label: "Disponibles", icon: "💚" },
-  { key: "en_proceso", label: "En proceso", icon: "🔄" },
+  { key: "en_recuperacion", label: "En Recuperación", icon: "🔄" },
 ];
 
 export default function AllCatsPage() {
@@ -34,7 +34,7 @@ export default function AllCatsPage() {
   const filtered = cats.filter((cat) => {
     if (filter === "todos") return true;
     if (filter === "hembra" || filter === "macho") return cat.gender === filter;
-    if (filter === "disponible" || filter === "en_proceso")
+    if (filter === "disponible" || filter === "en_recuperacion")
       return cat.status === filter;
     return true;
   });
@@ -59,7 +59,7 @@ export default function AllCatsPage() {
   disponible:  "bg-[#57971e] hover:bg-[#4a8a1a]",
   hembra:      "bg-[#ff3ca5] hover:bg-[#d42281]",
   macho:       "bg-[#0bbaf7] hover:bg-[#08a4dd]",
-  en_proceso:  "bg-yellow-400 hover:bg-yellow-500",
+  en_recuperacion:  "bg-yellow-400 hover:bg-yellow-500",
   adoptado:    "bg-blue-500 hover:bg-blue-600",
 };
   return (

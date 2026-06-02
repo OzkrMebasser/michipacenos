@@ -19,6 +19,10 @@ const EMPTY_FORM: CatInsert = {
   status: "disponible",
   image_url: null,
   photos: [],
+  sterilized: false,
+  sterilization_date: null,
+  sterilization_reserved_date: null,
+  ficha: null,
 };
 
 export default function CatForm({ cat, onSave, onCancel }: CatFormProps) {
@@ -33,6 +37,10 @@ export default function CatForm({ cat, onSave, onCancel }: CatFormProps) {
       status: cat.status,
       image_url: cat.image_url,
       photos: cat.photos ?? [],
+      sterilized: cat.sterilized ?? false,
+      sterilization_date: cat.sterilization_date ?? null,
+      sterilization_reserved_date: cat.sterilization_reserved_date ?? null,
+      ficha: cat.ficha ?? null,
     } : EMPTY_FORM,
   );
 
@@ -84,7 +92,6 @@ export default function CatForm({ cat, onSave, onCancel }: CatFormProps) {
     if (files.length > remaining) setError(`Solo se subieron ${remaining} foto(s) — límite de 5 alcanzado.`);
 
     setUploadingPhotos(true);
-
     const uploadedUrls: string[] = [];
 
     for (const file of filesToUpload) {
@@ -119,6 +126,11 @@ export default function CatForm({ cat, onSave, onCancel }: CatFormProps) {
       status: form.status,
       image_url: form.image_url || null,
       photos: form.photos ?? [],
+      sterilized: form.sterilized,
+      sterilization_date: form.sterilized ? (form.sterilization_date || null) : null,
+      sterilization_reserved_date: !form.sterilized ? (form.sterilization_reserved_date || null) : null,
+      ficha: form.ficha ? form.ficha.trim() : null,
+      deleted_at: cat.deleted_at,
     };
 
     let dbError = null;
@@ -202,6 +214,16 @@ export default function CatForm({ cat, onSave, onCancel }: CatFormProps) {
             <input name="name" value={form.name} onChange={handleChange} required placeholder="Ej. Luna"
               className="px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent transition" />
           </div>
+          <div className="flex flex-col gap-1.5">
+  <label className="text-sm font-medium text-gray-700">Ficha</label>
+  <input
+    name="ficha"
+    value={form.ficha ?? ""}
+    onChange={handleChange}
+    placeholder="Ej. 001, A-23..."
+    className="px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent transition"
+  />
+</div>
 
           <div className="flex flex-col gap-1.5">
             <label className="text-sm font-medium text-gray-700">Edad *</label>
@@ -254,21 +276,84 @@ export default function CatForm({ cat, onSave, onCancel }: CatFormProps) {
           <div className="flex flex-col gap-1.5 sm:col-span-2">
             <label className="text-sm font-medium text-gray-700">Estado de adopción *</label>
             <div className="flex flex-wrap gap-2">
-              {(["disponible", "en_proceso", "adoptado"] as const).map((s) => (
+              {(["disponible", "en_recuperacion", "adoptado"] as const).map((s) => (
                 <button key={s} type="button" onClick={() => setForm((prev) => ({ ...prev, status: s }))}
                   className={`px-4 py-2 rounded-xl text-sm font-medium transition border ${
                     form.status === s
                       ? s === "disponible" ? "bg-green-500 text-white border-green-500"
-                        : s === "en_proceso" ? "bg-yellow-400 text-yellow-900 border-yellow-400"
+                        : s === "en_recuperacion" ? "bg-yellow-400 text-yellow-900 border-yellow-400"
                         : "bg-blue-500 text-white border-blue-500"
                       : "bg-white text-gray-500 border-gray-200 hover:border-orange-200"
                   }`}>
-                  {s === "disponible" ? "Disponible" : s === "en_proceso" ? "En proceso" : "Adoptado"}
+                  {s === "disponible" ? "Disponible" : s === "en_recuperacion" ? "En Recuperación" : "Adoptado"}
                 </button>
               ))}
             </div>
           </div>
 
+      {/* Esterilización */}
+<div className="flex flex-col gap-3 sm:col-span-2">
+  <hr className="border-orange-100" />
+  <label className="text-sm font-medium text-gray-700">Esterilización</label>
+
+  {/* Toggle Sí / No */}
+  <div className="flex gap-2">
+    <button
+      type="button"
+      onClick={() => setForm((prev) => ({ ...prev, sterilized: true, sterilization_reserved_date: null }))}
+      className={`px-4 py-2 rounded-xl text-sm font-medium transition border ${
+        form.sterilized
+          ? "bg-teal-500 text-white border-teal-500"
+          : "bg-white text-gray-500 border-gray-200 hover:border-orange-200"
+      }`}
+    >
+      ✓ Sí
+    </button>
+    <button
+      type="button"
+      onClick={() => setForm((prev) => ({ ...prev, sterilized: false, sterilization_date: null }))}
+      className={`px-4 py-2 rounded-xl text-sm font-medium transition border ${
+        !form.sterilized
+          ? "bg-gray-400 text-white border-gray-400"
+          : "bg-white text-gray-500 border-gray-200 hover:border-orange-200"
+      }`}
+    >
+      ✗ No
+    </button>
+  </div>
+
+  {/* Si YA está esterilizado: fecha de esterilización */}
+  {form.sterilized && (
+    <div className="flex flex-col gap-1.5">
+      <label className="text-xs text-gray-500">Fecha de esterilización</label>
+      <input
+        type="date"
+        value={form.sterilization_date ?? ""}
+        onChange={(e) =>
+          setForm((prev) => ({ ...prev, sterilization_date: e.target.value || null }))
+        }
+        className="px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent transition w-full sm:w-56"
+      />
+      <p className="text-xs text-gray-400">Déjalo vacío si no tienes la fecha exacta.</p>
+    </div>
+  )}
+
+  {/* Si NO está esterilizado: fecha de reserva */}
+  {!form.sterilized && (
+    <div className="flex flex-col gap-1.5">
+      <label className="text-xs text-gray-500">Fecha de reserva para esterilización</label>
+      <input
+        type="date"
+        value={form.sterilization_reserved_date ?? ""}
+        onChange={(e) =>
+          setForm((prev) => ({ ...prev, sterilization_reserved_date: e.target.value || null }))
+        }
+        className="px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent transition w-full sm:w-56"
+      />
+      <p className="text-xs text-gray-400">Opcional — si ya tiene cita agendada.</p>
+    </div>
+  )}
+</div>
           <div className="flex flex-col gap-1.5 sm:col-span-2">
             <label className="text-sm font-medium text-gray-700">Descripción</label>
             <textarea name="description" value={form.description} onChange={handleChange} rows={4}

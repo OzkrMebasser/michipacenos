@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { useParams, useRouter } from 'next/navigation';
-import { supabase } from '../../lib/supabase';
-import type { Adoption } from '../../../lib/types';
-import { parseLocalDate } from '@/app/lib/utils';
+import { useEffect, useState } from "react";
+import { useParams, useRouter } from "next/navigation";
+import { supabase } from "../../lib/supabase";
+import type { Adoption } from "../../../lib/types";
+import { parseLocalDate } from "@/app/lib/utils";
 
 export default function AdoptionDetailPage() {
   const { id } = useParams();
@@ -14,9 +14,11 @@ export default function AdoptionDetailPage() {
 
   useEffect(() => {
     supabase
-      .from('adoptions')
-      .select('*, cat:cats(name, image_url, age, gender, color)')
-      .eq('id', id)
+      .from("adoptions")
+      .select(
+        "*, cat:cats(name, image_url, age, gender, color, sterilized, sterilization_date, sterilization_reserved_date)",
+      )
+      .eq("id", id)
       .single()
       .then(({ data }) => {
         setAdoption(data as Adoption);
@@ -47,7 +49,9 @@ export default function AdoptionDetailPage() {
         <div className="flex items-center gap-3">
           <span className="text-2xl">🏠</span>
           <div>
-            <h1 className="font-black text-gray-800 leading-tight">{adoption.adopter_name}</h1>
+            <h1 className="font-black text-gray-800 leading-tight">
+              {adoption.adopter_name}
+            </h1>
             <p className="text-xs text-gray-400">Detalle de adopción</p>
           </div>
         </div>
@@ -60,9 +64,8 @@ export default function AdoptionDetailPage() {
       </nav>
 
       <div className="max-w-3xl mx-auto px-6 py-8 flex flex-col gap-6">
-
         {/* Michi vinculado */}
-        {adoption.cat && (
+        {/* {adoption.cat && (
           <div className="bg-white rounded-2xl border border-orange-100 p-6 flex items-center gap-5">
             <div className="w-20 h-20 rounded-2xl overflow-hidden bg-orange-100 flex-shrink-0">
               {adoption.cat.image_url ? (
@@ -79,34 +82,108 @@ export default function AdoptionDetailPage() {
               </p>
             </div>
           </div>
-        )}
+        )} */}
+        {adoption.cat && (
+          <div className="bg-white rounded-2xl border border-orange-100 p-6 flex items-center gap-5">
+            <div className="w-20 h-20 rounded-2xl overflow-hidden bg-orange-100 flex-shrink-0">
+              {adoption.cat.image_url ? (
+                <img
+                  src={adoption.cat.image_url}
+                  alt={adoption.cat.name}
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center text-3xl">
+                  🐱
+                </div>
+              )}
+            </div>
+            <div className="flex flex-col gap-1">
+              <p className="text-xs text-orange-500 font-semibold uppercase tracking-wide">
+                Michi adoptado
+              </p>
+              <p className="text-xl font-black text-gray-900">
+                {adoption.cat.name}
+              </p>
+              <p className="text-sm text-gray-500">
+                {(adoption.cat as any).age} · {(adoption.cat as any).gender} ·{" "}
+                {(adoption.cat as any).color}
+              </p>
 
+              {/* Esterilización */}
+              {(adoption.cat as any).sterilized ? (
+                <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-medium bg-teal-100 text-teal-800 w-fit mt-1">
+                  {(adoption.cat as any).sterilization_date
+                    ? `✂️ Esterilizado/a · ${new Date((adoption.cat as any).sterilization_date + "T12:00").toLocaleDateString("es-MX", { day: "2-digit", month: "short", year: "numeric" })}`
+                    : "✂️ Esterilizado/a · sin fecha"}
+                </span>
+              ) : (
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-medium bg-gray-100 text-gray-500 w-fit mt-1">
+                  ✗ No esterilizado/a
+                  {(adoption.cat as any).sterilization_reserved_date && (
+                    <>
+                      <span className="w-px h-3 bg-gray-300" />
+                      <span className="text-orange-500 font-semibold">
+                        🗓️{" "}
+                        {new Date(
+                          (adoption.cat as any).sterilization_reserved_date +
+                            "T12:00",
+                        ).toLocaleDateString("es-MX", {
+                          day: "2-digit",
+                          month: "2-digit",
+                          year: "2-digit",
+                        })}
+                      </span>
+                    </>
+                  )}
+                </span>
+              )}
+            </div>
+          </div>
+        )}
         {/* Info del adoptante */}
         <div className="bg-white rounded-2xl border border-orange-100 p-6">
-          <p className="text-xs text-orange-500 font-semibold uppercase tracking-wide mb-4">Datos del adoptante</p>
+          <p className="text-xs text-orange-500 font-semibold uppercase tracking-wide mb-4">
+            Datos del adoptante
+          </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <Field label="Nombre" value={adoption.adopter_name} />
             <Field label="Correo" value={adoption.adopter_email} />
             <Field
               label="Teléfono / WhatsApp"
               value={adoption.adopter_phone}
-              href={adoption.adopter_phone ? `https://wa.me/52${adoption.adopter_phone.replace(/\D/g, '')}` : undefined}
+              href={
+                adoption.adopter_phone
+                  ? `https://wa.me/52${adoption.adopter_phone.replace(/\D/g, "")}`
+                  : undefined
+              }
             />
             <Field label="Domicilio" value={adoption.adopter_address} />
             <Field
               label="Fecha de adopción"
-              value={adoption.adoption_date
-                ? parseLocalDate(adoption.adoption_date).toLocaleDateString('es-MX', {
-                    day: '2-digit', month: 'long', year: 'numeric'
-                  })
-                : undefined}
+              value={
+                adoption.adoption_date
+                  ? parseLocalDate(adoption.adoption_date).toLocaleDateString(
+                      "es-MX",
+                      {
+                        day: "2-digit",
+                        month: "long",
+                        year: "numeric",
+                      },
+                    )
+                  : undefined
+              }
             />
             <Field label="Lugar" value={adoption.adoption_place} />
           </div>
           {adoption.notes && (
             <div className="mt-4 pt-4 border-t border-gray-100">
-              <p className="text-xs text-gray-400 font-semibold uppercase tracking-wide mb-1">Notas</p>
-              <p className="text-sm text-gray-700 whitespace-pre-line">{adoption.notes}</p>
+              <p className="text-xs text-gray-400 font-semibold uppercase tracking-wide mb-1">
+                Notas
+              </p>
+              <p className="text-sm text-gray-700 whitespace-pre-line">
+                {adoption.notes}
+              </p>
             </div>
           )}
         </div>
@@ -126,7 +203,9 @@ export default function AdoptionDetailPage() {
           </div>
 
           {!adoption.follow_ups || adoption.follow_ups.length === 0 ? (
-            <p className="text-sm text-gray-400 italic">Sin seguimientos registrados.</p>
+            <p className="text-sm text-gray-400 italic">
+              Sin seguimientos registrados.
+            </p>
           ) : (
             <div className="flex flex-col gap-3">
               {[...adoption.follow_ups].reverse().map((f, i) => (
@@ -135,13 +214,18 @@ export default function AdoptionDetailPage() {
                   <div className="flex flex-col items-center flex-shrink-0">
                     <div className="w-3 h-3 rounded-full bg-orange-400 mt-1" />
                     {i < adoption.follow_ups!.length - 1 && (
-                      <div className="w-0.5 bg-orange-100 flex-1 mt-1" style={{ minHeight: 24 }} />
+                      <div
+                        className="w-0.5 bg-orange-100 flex-1 mt-1"
+                        style={{ minHeight: 24 }}
+                      />
                     )}
                   </div>
                   <div className="flex flex-col gap-0.5 pb-4">
                     <span className="text-xs text-orange-500 font-semibold">
-                      {parseLocalDate(f.date).toLocaleDateString('es-MX', {
-                        day: '2-digit', month: 'short', year: 'numeric'
+                      {parseLocalDate(f.date).toLocaleDateString("es-MX", {
+                        day: "2-digit",
+                        month: "short",
+                        year: "numeric",
                       })}
                     </span>
                     <p className="text-sm text-gray-700">{f.note}</p>
@@ -151,19 +235,33 @@ export default function AdoptionDetailPage() {
             </div>
           )}
         </div>
-
       </div>
     </div>
   );
 }
 
-function Field({ label, value, href }: { label: string; value?: string | null; href?: string }) {
+function Field({
+  label,
+  value,
+  href,
+}: {
+  label: string;
+  value?: string | null;
+  href?: string;
+}) {
   if (!value) return null;
   return (
     <div className="flex flex-col gap-0.5">
-      <p className="text-xs text-gray-400 font-semibold uppercase tracking-wide">{label}</p>
+      <p className="text-xs text-gray-400 font-semibold uppercase tracking-wide">
+        {label}
+      </p>
       {href ? (
-        <a href={href} target="_blank" rel="noreferrer" className="text-sm text-green-600 hover:underline font-medium">
+        <a
+          href={href}
+          target="_blank"
+          rel="noreferrer"
+          className="text-sm text-green-600 hover:underline font-medium"
+        >
           {value}
         </a>
       ) : (

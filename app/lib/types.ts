@@ -1,5 +1,5 @@
-export type Gender = 'hembra' | 'macho';
-export type AdoptionStatus = 'disponible' | 'en_proceso' | 'adoptado';
+export type Gender = "hembra" | "macho";
+export type AdoptionStatus = "disponible" | "en_recuperacion" | "adoptado";
 
 export interface Cat {
   id: string;
@@ -12,6 +12,11 @@ export interface Cat {
   image_url: string | null;
   photos: string[];
   created_at: string;
+  sterilized: boolean;
+  sterilization_date: string | null;
+  sterilization_reserved_date: string | null;
+  deleted_at?: string | null;
+  ficha: string | null;
 }
 
 export interface Story {
@@ -43,7 +48,6 @@ export interface HowToHelp {
   description: string;
 }
 
-
 export interface Campaign {
   id: string;
   title: string;
@@ -72,11 +76,17 @@ export interface Adoption {
   notes?: string;
   created_at: string;
   follow_ups?: FollowUp[];
-  cat?: { name: string; image_url: string | null };
+  cat?: {
+    name: string;
+    image_url: string | null;
+    sterilized: boolean;
+    sterilization_date: string | null;
+    sterilization_reserved_date: string | null;
+  };
+  
 }
 
-
-export type AdoptionInsert = Omit<Adoption, 'id' | 'created_at' | 'cat'>;
+export type AdoptionInsert = Omit<Adoption, "id" | "created_at" | "cat">;
 
 export interface FollowUp {
   date: string;
@@ -84,12 +94,10 @@ export interface FollowUp {
   created_by?: string;
 }
 
-
-
 export type FilterKey =
-  | 'todos'
-  | 'hembra'
-  | 'macho'
-  | 'disponible'
-  | 'en_proceso'
-  | 'adoptado';
+  | "todos"
+  | "hembra"
+  | "macho"
+  | "disponible"
+  | "en_recuperacion"
+  | "adoptado";

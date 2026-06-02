@@ -22,7 +22,7 @@ export default function Dashboard({ session }: DashboardProps) {
     total: 0,
     disponible: 0,
     adoptado: 0,
-    en_proceso: 0,
+    en_recuperacion: 0,
   });
 
   const fetchCats = useCallback(async () => {
@@ -37,7 +37,8 @@ export default function Dashboard({ session }: DashboardProps) {
         total: data.length,
         disponible: data.filter((c) => c.status === "disponible").length,
         adoptado: data.filter((c) => c.status === "adoptado").length,
-        en_proceso: data.filter((c) => c.status === "en_proceso").length,
+        en_recuperacion: data.filter((c) => c.status === "en_recuperacion")
+          .length,
       });
     }
     setLoading(false);
@@ -56,9 +57,28 @@ export default function Dashboard({ session }: DashboardProps) {
     setView("edit");
   };
 
+  // const handleDelete = async (id: string) => {
+  //   if (!confirm("¿Eliminar este michi?")) return;
+  //   await supabase.from("cats").delete().eq("id", id);
+  //   fetchCats();
+  // };
+  //   const handleDelete = async (id: string) => {
+  //   if (!confirm("¿Eliminar este michi? Quedará archivado 3 meses antes de borrarse definitivamente.")) return;
+  //   await supabase
+  //     .from("cats")
+  //     .update({ deleted_at: new Date().toISOString() })
+  //     .eq("id", id);
+  //   fetchCats();
+  // };
   const handleDelete = async (id: string) => {
-    if (!confirm("¿Eliminar este michi?")) return;
-    await supabase.from("cats").delete().eq("id", id);
+    if (
+      !confirm("¿Archivar este michi? Se borrará definitivamente en 6 meses.")
+    )
+      return;
+    await supabase
+      .from("cats")
+      .update({ deleted_at: new Date().toISOString() })
+      .eq("id", id);
     fetchCats();
   };
 
@@ -166,7 +186,7 @@ export default function Dashboard({ session }: DashboardProps) {
         </div>
       </nav>
 
-      <div className="max-w-5xl mx-auto px-6 py-8">
+      <div className="max-w-7xl mx-auto px-6 py-8">
         {/* Stats */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
           <StatCard
@@ -182,8 +202,8 @@ export default function Dashboard({ session }: DashboardProps) {
             color="green"
           />
           <StatCard
-            label="En proceso"
-            value={stats.en_proceso}
+            label="En Recuperación"
+            value={stats.en_recuperacion}
             emoji="🔄"
             color="yellow"
           />

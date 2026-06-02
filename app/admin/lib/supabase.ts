@@ -7,10 +7,14 @@ type CatRow = {
   gender: 'macho' | 'hembra';
   color: string;
   description: string;
-  status: 'disponible' | 'en_proceso' | 'adoptado';
+  status: 'disponible' | 'en_recuperacion' | 'adoptado';
   image_url: string | null;
   photos: string[];
   created_at: string;
+   sterilized: boolean;
+  sterilization_date: string | null;
+  sterilization_reserved_date: string | null;
+  deleted_at: string | null;
 };
 
 export type CatInsert = Omit<CatRow, 'id' | 'created_at'>;
