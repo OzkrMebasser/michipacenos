@@ -2,16 +2,21 @@ import { supabase } from "@/app/admin/lib/supabase";
 import CatDetailPage from "@/app/components/CatDetailPage";
 import type { Metadata } from "next";
 
+
 const SITE_URL = "https://michipacenos.vercel.app";
 
 export async function generateMetadata(
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ): Promise<Metadata> {
-  const { data: cat } = await supabase
+  const { id } = await params;  // ← await aquí
+
+  const { data: cat, error } = await supabase
     .from("cats")
     .select("name, description, image_url, age, color, gender")
-    .eq("id", params.id)
+    .eq("id", id)  // ← usa id directo
     .single();
+ console.log("🐱 cat:", cat);
+    console.log("Metadata fetch error:", error);  // ← log de error
 
   if (!cat) return { title: "Michi no encontrado | Michi Paceños" };
 
@@ -19,7 +24,7 @@ export async function generateMetadata(
   const description =
     cat.description ??
     `${cat.name} es un${cat.gender === "hembra" ? "a" : ""} gat${cat.gender === "hembra" ? "a" : "o"} de ${cat.age} en busca de un hogar amoroso.`;
-  const url = `${SITE_URL}/michi/${params.id}`;
+  const url = `${SITE_URL}/michi/${id}`;
 
   return {
     title,
@@ -41,3 +46,4 @@ export async function generateMetadata(
 export default function Page() {
   return <CatDetailPage />;
 }
+
