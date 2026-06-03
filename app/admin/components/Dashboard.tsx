@@ -114,16 +114,22 @@ export default function Dashboard({ session }: DashboardProps) {
           {/* Desktop links */}
           <div className="hidden sm:flex items-center gap-2">
             <Link
+              href="/admin/estadisticas"
+              className="text-sm text-gray-500 hover:text-gray-700 font-medium px-4 py-2 rounded-xl hover:bg-gray-100 transition"
+            >
+              📊 Estadisticas
+            </Link>   
+            <Link
               href="/admin/campana"
               className="text-sm text-gray-500 hover:text-gray-700 font-medium px-4 py-2 rounded-xl hover:bg-gray-100 transition"
             >
-              Crear campaña
+              📣 Crear campaña
             </Link>
             <Link
               href="/admin/adopciones"
               className="text-sm text-gray-500 hover:text-gray-700 font-medium px-4 py-2 rounded-xl hover:bg-gray-100 transition"
             >
-              Adopciones
+              🏠 Adopciones
             </Link>
             <button
               onClick={handleLogout}
@@ -159,6 +165,13 @@ export default function Dashboard({ session }: DashboardProps) {
           className={`sm:hidden overflow-hidden transition-all duration-300 ${menuOpen ? "max-h-40 opacity-100 mt-3" : "max-h-0 opacity-0"}`}
         >
           <div className="flex flex-col gap-1 border-t border-gray-100 pt-3">
+               <Link
+              href="/admin/estadisticas"
+              onClick={() => setMenuOpen(false)}
+              className="text-sm text-gray-600 hover:text-gray-800 font-medium px-3 py-2 rounded-xl hover:bg-gray-100 transition"
+            >
+               📊 Estadisticas
+            </Link>
             <Link
               href="/admin/campana"
               onClick={() => setMenuOpen(false)}

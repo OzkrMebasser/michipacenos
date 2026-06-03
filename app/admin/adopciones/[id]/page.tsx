@@ -43,12 +43,10 @@ export default function AdoptionDetailPage() {
     );
   }
 
-  const catImageUrl = adoption.cat?.image_url ?? null;
-  const catPhotos = (adoption.cat as any)?.photos ?? [];
-  const allPhotos = [
-    ...(catImageUrl ? [catImageUrl] : []),
-    ...catPhotos,
-  ];
+  const cat = adoption.cat as any;
+  const catImageUrl = cat?.image_url ?? null;
+  const catPhotos = cat?.photos ?? [];
+  const allPhotos = [...(catImageUrl ? [catImageUrl] : []), ...catPhotos];
   const hasMultiple = allPhotos.length > 1;
 
   return (
@@ -73,26 +71,9 @@ export default function AdoptionDetailPage() {
       </nav>
 
       <div className="max-w-3xl mx-auto px-6 py-8 flex flex-col gap-6">
+
         {/* Michi vinculado */}
-        {/* {adoption.cat && (
-          <div className="bg-white rounded-2xl border border-orange-100 p-6 flex items-center gap-5">
-            <div className="w-20 h-20 rounded-2xl overflow-hidden bg-orange-100 flex-shrink-0">
-              {adoption.cat.image_url ? (
-                <img src={adoption.cat.image_url} alt={adoption.cat.name} className="w-full h-full object-cover" />
-              ) : (
-                <div className="w-full h-full flex items-center justify-center text-3xl">🐱</div>
-              )}
-            </div>
-            <div>
-              <p className="text-xs text-orange-500 font-semibold uppercase tracking-wide mb-1">Michi adoptado</p>
-              <p className="text-xl font-black text-gray-900">{adoption.cat.name}</p>
-              <p className="text-sm text-gray-500">
-                {(adoption.cat as any).age} · {(adoption.cat as any).gender} · {(adoption.cat as any).color}
-              </p>
-            </div>
-          </div>
-        )} */}
-        {adoption.cat && (
+        {cat && (
           <div className="bg-white rounded-2xl border border-orange-100 overflow-hidden">
             <div className="flex flex-col sm:flex-row">
               {/* Foto con galería */}
@@ -100,7 +81,7 @@ export default function AdoptionDetailPage() {
                 {allPhotos.length > 0 ? (
                   <img
                     src={allPhotos[currentPhoto]}
-                    alt={adoption.cat.name}
+                    alt={cat.name}
                     className="w-full h-full object-cover"
                   />
                 ) : (
@@ -109,7 +90,6 @@ export default function AdoptionDetailPage() {
                   </div>
                 )}
 
-                {/* Arrows */}
                 {hasMultiple && (
                   <>
                     <button
@@ -133,7 +113,6 @@ export default function AdoptionDetailPage() {
                   </>
                 )}
 
-                {/* Dots */}
                 {hasMultiple && (
                   <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1">
                     {allPhotos.map((_, i) => (
@@ -141,7 +120,11 @@ export default function AdoptionDetailPage() {
                         key={i}
                         title={`Foto ${i + 1}`}
                         onClick={() => setCurrentPhoto(i)}
-                        className={`h-1.5 rounded-full transition-all ${i === currentPhoto ? "bg-white w-3" : "bg-white/50 w-1.5"}`}
+                        className={`h-1.5 rounded-full transition-all ${
+                          i === currentPhoto
+                            ? "bg-white w-3"
+                            : "bg-white/50 w-1.5"
+                        }`}
                       />
                     ))}
                   </div>
@@ -149,60 +132,49 @@ export default function AdoptionDetailPage() {
               </div>
 
               {/* Info del michi */}
-              <div className="p-6 flex flex-col gap-1">
+              <div className="p-6 flex flex-col gap-2">
                 <p className="text-xs text-orange-500 font-semibold uppercase tracking-wide">
                   Michi adoptado
                 </p>
-                <p className="text-xl font-black text-gray-900">
-                  {/* {adoption.cat.name}
-                   {cat.ficha && (
-                      <div className="flex flex-col gap-0.5">
-                        <p className="text-xs text-gray-400 font-semibold uppercase tracking-wide">
-                          Ficha <span className="inline-flex items-center px-1.5 py-0.5 rounded-md text-xs font-mono font-medium bg-orange-50 text-orange-600 border border-orange-200 w-fit">
-                          #{cat.ficha}
-                        </span>
-                        </p>
-                        
-                      </div>
-                    )} */}
-                  {(adoption.cat as any).ficha && (
-                    <span className="flex flex-col gap-0.5">
-                      <span className="text-xs text-gray-400 font-semibold uppercase tracking-wide">
-                        Ficha{" "}
-                        <span className="inline-flex items-center px-1.5 py-0.5 rounded-md text-xs font-mono font-medium bg-orange-50 text-orange-600 border border-orange-200 w-fit">
-                          #{(adoption.cat as any).ficha}
-                        </span>
-                      </span>
+
+                {/* Nombre + ficha */}
+                <div className="flex items-center gap-2 flex-wrap">
+                  <p className="text-xl font-black text-gray-900">{cat.name}</p>
+                  {cat.ficha && (
+                    <span className="inline-flex items-center px-1.5 py-0.5 rounded-md text-xs font-mono font-medium bg-orange-50 text-orange-600 border border-orange-200">
+                      #{cat.ficha}
                     </span>
-                    // <span className="ml-2 inline-flex items-center px-1.5 py-0.5 rounded-md text-xs font-mono font-medium bg-orange-50 text-orange-600 border border-orange-200 w-fit">
-                    //   #{(adoption.cat as any).ficha}
-                    // </span>
                   )}
-                </p>
+                </div>
+
                 <p className="text-sm text-gray-500">
-                  {(adoption.cat as any).age} · {(adoption.cat as any).gender} ·{" "}
-                  {(adoption.cat as any).color}
+                  {cat.age} · {cat.gender} · {cat.color}
                 </p>
 
                 {/* Esterilización */}
-                {(adoption.cat as any).sterilized ? (
+                {cat.sterilized ? (
                   <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-medium bg-teal-100 text-teal-800 w-fit mt-1">
-                    {(adoption.cat as any).sterilization_date
-                      ? `✂️ Esterilizado/a · ${new Date((adoption.cat as any).sterilization_date + "T12:00").toLocaleDateString("es-MX", { day: "2-digit", month: "short", year: "numeric" })}`
+                    {cat.sterilization_date
+                      ? `✂️ Esterilizado/a · ${new Date(
+                          cat.sterilization_date + "T12:00",
+                        ).toLocaleDateString("es-MX", {
+                          day: "2-digit",
+                          month: "short",
+                          year: "numeric",
+                        })}`
                       : "✂️ Esterilizado/a · sin fecha"}
                   </span>
                 ) : (
-                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-medium bg-gray-100 text-gray-500 w-fit mt-1">
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-medium bg-gray-100 text-gray-500 w-fit mt-1 flex-wrap">
                     ✗ No esterilizado/a
-                    {(adoption.cat as any).sterilization_reserved_date && (
+                    {cat.sterilization_reserved_date && (
                       <>
-                        <span className="w-px h-3 bg-gray-300 ml-3" /> Reserva
-                        para esterilizar:
-                        <span className="text-orange-500 font-semibold ml-0">
+                        <span className="w-px h-3 bg-gray-300" />
+                        Reserva para esterilizar:
+                        <span className="text-orange-500 font-semibold">
                           🗓️{" "}
                           {new Date(
-                            (adoption.cat as any).sterilization_reserved_date +
-                              "T12:00",
+                            cat.sterilization_reserved_date + "T12:00",
                           ).toLocaleDateString("es-MX", {
                             day: "2-digit",
                             month: "2-digit",
@@ -216,7 +188,7 @@ export default function AdoptionDetailPage() {
 
                 {/* Miniaturas */}
                 {hasMultiple && (
-                  <div className="flex flex-wrap gap-1.5 mt-3">
+                  <div className="flex flex-wrap gap-1.5 mt-2">
                     {allPhotos.map((url, i) => (
                       <button
                         key={i}
@@ -240,6 +212,7 @@ export default function AdoptionDetailPage() {
             </div>
           </div>
         )}
+
         {/* Info del adoptante */}
         <div className="bg-white rounded-2xl border border-orange-100 p-6">
           <p className="text-xs text-orange-500 font-semibold uppercase tracking-wide mb-4">
@@ -264,11 +237,7 @@ export default function AdoptionDetailPage() {
                 adoption.adoption_date
                   ? parseLocalDate(adoption.adoption_date).toLocaleDateString(
                       "es-MX",
-                      {
-                        day: "2-digit",
-                        month: "long",
-                        year: "numeric",
-                      },
+                      { day: "2-digit", month: "long", year: "numeric" },
                     )
                   : undefined
               }
@@ -309,7 +278,6 @@ export default function AdoptionDetailPage() {
             <div className="flex flex-col gap-3">
               {[...adoption.follow_ups].reverse().map((f, i) => (
                 <div key={i} className="flex gap-4 items-start">
-                  {/* línea de tiempo */}
                   <div className="flex flex-col items-center flex-shrink-0">
                     <div className="w-3 h-3 rounded-full bg-orange-400 mt-1" />
                     {i < adoption.follow_ups!.length - 1 && (
