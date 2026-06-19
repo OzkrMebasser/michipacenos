@@ -32,11 +32,18 @@ const STERILIZED_FILTERS = [
   { key: "no", label: "✗ No esterilizados" },
 ] as const;
 
+const ARCHIVE_FILTERS = [
+  { key: "todos", label: "Todos" },
+  { key: "activos", label: "Activos" },
+  { key: "archivados", label: "🗄️ Archivados" },
+] as const;
+
 interface CatTableProps {
   cats: Cat[];
   loading: boolean;
   onEdit: (cat: Cat) => void;
   onDelete: (id: string) => void;
+  onRestore: (id: string) => void;
 }
 
 function SterilizedBadge({ cat }: { cat: Cat }) {
@@ -76,15 +83,32 @@ function SterilizedBadge({ cat }: { cat: Cat }) {
     </span>
   );
 }
+
+function ArchivedBadge({ cat }: { cat: Cat }) {
+  if (!cat.deleted_at) return null;
+  const archivedLabel = new Date(cat.deleted_at).toLocaleDateString("es-MX", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  });
+  return (
+    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg text-xs font-medium bg-gray-200 text-gray-600">
+      🗄️ Archivado · {archivedLabel}
+    </span>
+  );
+}
+
 export default function CatTable({
   cats,
   loading,
   onEdit,
   onDelete,
+  onRestore,
 }: CatTableProps) {
   const [statusFilter, setStatusFilter] = useState<string>("todos");
   const [genderFilter, setGenderFilter] = useState<string>("todos");
   const [sterilizedFilter, setSterilizedFilter] = useState<string>("todos");
+  const [archiveFilter, setArchiveFilter] = useState<string>("todos");
   const router = useRouter();
   const filtered = cats.filter((cat) => {
     const matchStatus = statusFilter === "todos" || cat.status === statusFilter;
@@ -93,7 +117,11 @@ export default function CatTable({
       sterilizedFilter === "todos" ||
       (sterilizedFilter === "si" && cat.sterilized) ||
       (sterilizedFilter === "no" && !cat.sterilized);
-    return matchStatus && matchGender && matchSterilized;
+    const matchArchive =
+      archiveFilter === "todos" ||
+      (archiveFilter === "activos" && !cat.deleted_at) ||
+      (archiveFilter === "archivados" && !!cat.deleted_at);
+    return matchStatus && matchGender && matchSterilized && matchArchive;
   });
 
   if (loading) {
@@ -180,6 +208,27 @@ export default function CatTable({
           ))}
         </div>
 
+        <div className="w-px bg-gray-200 self-stretch hidden sm:block" />
+
+        {/* Archive */}
+        <div className="flex flex-wrap gap-1.5">
+          {ARCHIVE_FILTERS.map((f) => (
+            <button
+              key={f.key}
+              onClick={() => setArchiveFilter(f.key)}
+              className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition border ${
+                archiveFilter === f.key
+                  ? f.key === "archivados"
+                    ? "bg-gray-500 text-white border-gray-500"
+                    : "bg-orange-500 text-white border-orange-500"
+                  : "bg-white text-gray-500 border-gray-200 hover:border-orange-200"
+              }`}
+            >
+              {f.label}
+            </button>
+          ))}
+        </div>
+
         <p className="text-xs text-gray-400 self-center ml-auto">
           {filtered.length} {filtered.length === 1 ? "michi" : "michis"}
         </p>
@@ -224,10 +273,13 @@ export default function CatTable({
                 <tbody className="divide-y divide-orange-50">
                   {filtered.map((cat) => {
                     const imgSrc = cat.image_url ?? cat.photos?.[0] ?? null;
+                    const isArchived = !!cat.deleted_at;
                     return (
                       <tr
                         key={cat.id}
-                        className="hover:bg-orange-50/50 transition"
+                        className={`hover:bg-orange-50/50 transition ${
+                          isArchived ? "opacity-50 grayscale bg-gray-50" : ""
+                        }`}
                       >
                         <td className="px-5 py-4">
                           <div className="flex items-center gap-3">
@@ -266,11 +318,14 @@ export default function CatTable({
                           {cat.gender}
                         </td>
                         <td className="px-5 py-4">
-                          <span
-                            className={`inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-medium ${STATUS_LABELS[cat.status].class}`}
-                          >
-                            {STATUS_LABELS[cat.status].label}
-                          </span>
+                          <div className="flex flex-col gap-1 items-start">
+                            <span
+                              className={`inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-medium ${STATUS_LABELS[cat.status].class}`}
+                            >
+                              {STATUS_LABELS[cat.status].label}
+                            </span>
+                            <ArchivedBadge cat={cat} />
+                          </div>
                         </td>
                         <td className="px-5 py-4">
                           <SterilizedBadge cat={cat} />
@@ -285,18 +340,29 @@ export default function CatTable({
                             >
                               Ver
                             </button>
-                            <button
-                              onClick={() => onEdit(cat)}
-                              className="text-orange-600 hover:text-orange-800 font-medium text-xs px-3 py-1.5 rounded-lg hover:bg-orange-100 transition"
-                            >
-                              Editar
-                            </button>
-                            <button
-                              onClick={() => onDelete(cat.id)}
-                              className="text-red-500 hover:text-red-700 font-medium text-xs px-3 py-1.5 rounded-lg hover:bg-red-50 transition"
-                            >
-                              Eliminar
-                            </button>
+                            {isArchived ? (
+                              <button
+                                onClick={() => onRestore(cat.id)}
+                                className="text-teal-600 hover:text-teal-800 font-medium text-xs px-3 py-1.5 rounded-lg hover:bg-teal-50 transition"
+                              >
+                                ♻️ Restaurar
+                              </button>
+                            ) : (
+                              <>
+                                <button
+                                  onClick={() => onEdit(cat)}
+                                  className="text-orange-600 hover:text-orange-800 font-medium text-xs px-3 py-1.5 rounded-lg hover:bg-orange-100 transition"
+                                >
+                                  Editar
+                                </button>
+                                <button
+                                  onClick={() => onDelete(cat.id)}
+                                  className="text-red-500 hover:text-red-700 font-medium text-xs px-3 py-1.5 rounded-lg hover:bg-red-50 transition"
+                                >
+                                  Eliminar
+                                </button>
+                              </>
+                            )}
                           </div>
                         </td>
                       </tr>
@@ -310,8 +376,14 @@ export default function CatTable({
             <div className="sm:hidden divide-y divide-orange-50">
               {filtered.map((cat) => {
                 const imgSrc = cat.image_url ?? cat.photos?.[0] ?? null;
+                const isArchived = !!cat.deleted_at;
                 return (
-                  <div key={cat.id} className="p-4 flex gap-3">
+                  <div
+                    key={cat.id}
+                    className={`p-4 flex gap-3 ${
+                      isArchived ? "opacity-50 grayscale bg-gray-50" : ""
+                    }`}
+                  >
                     <div className="w-14 h-14 rounded-xl overflow-hidden bg-orange-100 flex-shrink-0">
                       {imgSrc ? (
                         <img
@@ -344,8 +416,9 @@ export default function CatTable({
                       <p className="text-xs text-gray-500 mt-0.5">
                         {cat.age} · {cat.gender} · {cat.color}
                       </p>
-                      <div className="mt-1">
+                      <div className="mt-1 flex flex-wrap gap-1">
                         <SterilizedBadge cat={cat} />
+                        <ArchivedBadge cat={cat} />
                       </div>
                       <div className="flex gap-2 mt-2">
                         <button
@@ -354,18 +427,29 @@ export default function CatTable({
                         >
                           Ver
                         </button>
-                        <button
-                          onClick={() => onEdit(cat)}
-                          className="text-orange-600 font-medium text-xs"
-                        >
-                          Editar
-                        </button>
-                        <button
-                          onClick={() => onDelete(cat.id)}
-                          className="text-red-500 font-medium text-xs"
-                        >
-                          Eliminar
-                        </button>
+                        {isArchived ? (
+                          <button
+                            onClick={() => onRestore(cat.id)}
+                            className="text-teal-600 font-medium text-xs"
+                          >
+                            ♻️ Restaurar
+                          </button>
+                        ) : (
+                          <>
+                            <button
+                              onClick={() => onEdit(cat)}
+                              className="text-orange-600 font-medium text-xs"
+                            >
+                              Editar
+                            </button>
+                            <button
+                              onClick={() => onDelete(cat.id)}
+                              className="text-red-500 font-medium text-xs"
+                            >
+                              Eliminar
+                            </button>
+                          </>
+                        )}
                       </div>
                     </div>
                   </div>

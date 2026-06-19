@@ -23,6 +23,7 @@ export default function Dashboard({ session }: DashboardProps) {
     disponible: 0,
     adoptado: 0,
     en_recuperacion: 0,
+    archivados: 0,
   });
 
   const fetchCats = useCallback(async () => {
@@ -33,12 +34,15 @@ export default function Dashboard({ session }: DashboardProps) {
 
     if (!error && data) {
       setCats(data);
+      // Las estadísticas solo cuentan michis activos (no archivados)
+      const active = data.filter((c) => !c.deleted_at);
       setStats({
-        total: data.length,
-        disponible: data.filter((c) => c.status === "disponible").length,
-        adoptado: data.filter((c) => c.status === "adoptado").length,
-        en_recuperacion: data.filter((c) => c.status === "en_recuperacion")
+        total: active.length,
+        disponible: active.filter((c) => c.status === "disponible").length,
+        adoptado: active.filter((c) => c.status === "adoptado").length,
+        en_recuperacion: active.filter((c) => c.status === "en_recuperacion")
           .length,
+        archivados: data.filter((c) => !!c.deleted_at).length,
       });
     }
     setLoading(false);
@@ -57,27 +61,27 @@ export default function Dashboard({ session }: DashboardProps) {
     setView("edit");
   };
 
-  // const handleDelete = async (id: string) => {
-  //   if (!confirm("¿Eliminar este michi?")) return;
-  //   await supabase.from("cats").delete().eq("id", id);
-  //   fetchCats();
-  // };
-  //   const handleDelete = async (id: string) => {
-  //   if (!confirm("¿Eliminar este michi? Quedará archivado 3 meses antes de borrarse definitivamente.")) return;
-  //   await supabase
-  //     .from("cats")
-  //     .update({ deleted_at: new Date().toISOString() })
-  //     .eq("id", id);
-  //   fetchCats();
-  // };
+  // Soft delete: el registro se conserva en la base de datos, solo se marca
+  // como archivado (deleted_at) y deja de mostrarse en el sitio público.
   const handleDelete = async (id: string) => {
     if (
-      !confirm("¿Archivar este michi? Se borrará definitivamente en 6 meses.")
+      !confirm("¿Archivar este michi? No se mostrará en el sitio público, pero seguirá visible aquí en el admin.")
     )
       return;
     await supabase
       .from("cats")
       .update({ deleted_at: new Date().toISOString() })
+      .eq("id", id);
+    fetchCats();
+  };
+
+  // Restaurar un michi archivado: vuelve a estar visible en el sitio público.
+  const handleRestore = async (id: string) => {
+    if (!confirm("¿Restaurar este michi? Volverá a mostrarse en el sitio público."))
+      return;
+    await supabase
+      .from("cats")
+      .update({ deleted_at: null })
       .eq("id", id);
     fetchCats();
   };
@@ -201,7 +205,7 @@ export default function Dashboard({ session }: DashboardProps) {
 
       <div className="max-w-7xl mx-auto px-6 py-8">
         {/* Stats */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
+        <div className="grid grid-cols-2 sm:grid-cols-5 gap-4 mb-8">
           <StatCard
             label="Total michis"
             value={stats.total}
@@ -225,6 +229,12 @@ export default function Dashboard({ session }: DashboardProps) {
             value={stats.adoptado}
             emoji="🏠"
             color="blue"
+          />
+          <StatCard
+            label="Archivados"
+            value={stats.archivados}
+            emoji="🗄️"
+            color="gray"
           />
         </div>
 
@@ -262,6 +272,7 @@ export default function Dashboard({ session }: DashboardProps) {
             loading={loading}
             onEdit={handleEdit}
             onDelete={handleDelete}
+            onRestore={handleRestore}
           />
         ) : (
           <CatForm
@@ -284,7 +295,7 @@ function StatCard({
   label: string;
   value: number;
   emoji: string;
-  color: "orange" | "green" | "yellow" | "blue";
+  color: "orange" | "green" | "yellow" | "blue" | "gray";
 }) {
   return (
     <div className="bg-white rounded-2xl border border-orange-100 p-4 flex flex-col gap-1">

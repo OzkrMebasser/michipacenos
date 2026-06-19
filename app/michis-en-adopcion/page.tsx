@@ -24,6 +24,7 @@ export default function AllCatsPage() {
       .from("cats")
       .select("*")
       .neq("status", "adoptado")
+      .is("deleted_at", null)
       .order("created_at", { ascending: false })
       .then(({ data, error }) => {
         if (!error && data) setCats(data);
