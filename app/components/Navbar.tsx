@@ -11,6 +11,7 @@ const NAV_LINKS = [
   { label: "Historias", href: "/#historias" },
   { label: "Cómo ayudar", href: "/#como-ayudar" },
   { label: "Contacto", href: "/#contacto" },
+  { label: "¿Preguntas?", href: "/preguntas-frecuentes" },
 ];
 
 const LOGO_URL =
